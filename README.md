@@ -1,4 +1,4 @@
-# RyHar Portfolio v2
+# Zuumyy Portfolio v2
 
 A modern, interactive, and responsive personal portfolio website built to showcase projects, skills, and experience.
 
