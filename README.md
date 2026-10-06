@@ -26,7 +26,7 @@ First, clone the repository and install the dependencies:
 
 ```bash
 # Clone the repository
-git clone https://github.com/RyHarJr/portofoliov2.git
+git clone https://github.com/AlhadiAzumi/Portfolio-hadi.git
 
 # Navigate to the project directory
 cd portofoliov2
