@@ -29,7 +29,7 @@ First, clone the repository and install the dependencies:
 git clone https://github.com/AlhadiAzumi/Portfolio-hadi.git
 
 # Navigate to the project directory
-cd portofoliov2
+cd portfolio-hadi
 
 # Install dependencies
 npm install
