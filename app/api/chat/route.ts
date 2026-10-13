@@ -160,7 +160,7 @@ function getFallbackReply(input: string) {
       ]
     },
     {
-      keywords: ["mahasiswa", "mahasiswi", "kuliah di mana", "jurusan", "prodi", "informatika engineering", "informatics engineering", "pnl", "politeknik"],
+      keywords: ["mahasiswa", "kuliah di mana", "jurusan", "prodi", "informatika engineering", "informatics engineering", "pnl", "politeknik"],
       responses: [
         "Alhadi adalah mahasiswa Teknik Informatika di Politeknik Negeri Lhokseumawe (PNL). Saat ini ia juga aktif mengembangkan kemampuan di bidang software engineering dan teknologi.",
         "Sekarang Alhadi kuliah di Politeknik Negeri Lhokseumawe, jurusan Teknik Informatika. Jadi selain ngoding, masih ada tugas kuliah yang ikut antre juga 😄",
@@ -264,7 +264,7 @@ function getFallbackReply(input: string) {
       ]
     },
     {
-      keywords: ["pengalaman", "riwayat", "exp", "cv"],
+      keywords: ["pengalaman", "riwayat", "exp", "cv", "portfolio", "resume", "curriculum vitae", "background"],
       responses: [
         "Alhadi punya pengalaman di bidang teknologi informasi serta organisasi seperti UKM Policy di Politeknik Negeri Lhokseumawe. Itu bikin vibe-nya makin matang dan siap berkembang.",
         "Pengalaman Alhadi mencakup dunia organisasi, teknologi open-source, dan pengembangan aplikasi berbasis web. Bener-bener punya banyak pengalaman yang relevan.",
