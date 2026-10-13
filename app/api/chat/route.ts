@@ -143,11 +143,12 @@ function getFallbackReply(input: string) {
       ]
     },
     {
-      keywords: ["penghargaan", "prestasi", "juara", "osn", "olimpiade", "lomba"],
+      keywords: ["penghargaan", "prestasi", "juara", "osn", "olimpiade", "lomba", "peraih"],
       responses: [
         "Alhadi pernah meraih Juara 1 OSN bidang Informatika tingkat Kota Langsa untuk jenjang SMA/MA pada 2024. Keren, ya: problem solving-nya sudah terasah sejak sekolah!",
         "Salah satu pencapaian Alhadi adalah Juara 1 OSN Informatika tingkat Kota Langsa jenjang SMA/MA tahun 2024. Prestasi ini jadi bukti ketertarikannya pada informatika sudah lama tumbuh.",
-        "Ada nih! Alhadi meraih juara pertama OSN Informatika tingkat Kota Langsa pada 2024, saat jenjang SMA/MA. Medali boleh nggak kelihatan di chat, tapi prestasinya tercatat 😄"
+        "Ada nih! Alhadi meraih juara pertama OSN Informatika tingkat Kota Langsa pada 2024, saat jenjang SMA/MA. Medali boleh nggak kelihatan di chat, tapi prestasinya tercatat 😄",
+        "Prestasi yang tercatat: Juara 1 OSN Informatika tingkat Kota Langsa pada 2024. Itu menunjukkan kemampuan problem solving dan minat Alhadi di bidang informatika sejak SMA.",
       ]
     },
     {
