@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 
 interface HistoryEntry {
-  role: "system" | "user" | "assistant"
+  role: "user" | "assistant"
   content: string
 }
 
-function getFallbackReply(input: string) {
+function getFallbackReply(input: string, history: HistoryEntry[] = []) {
   const normalized = input.toLowerCase().trim()
 
   const groups = [
@@ -294,20 +294,50 @@ function getFallbackReply(input: string) {
   )
 
   if (matched) {
-    const seed = normalized.split("").reduce((sum, char) => sum + char.charCodeAt(0), 0)
-    return matched.responses[seed % matched.responses.length]
+    const recentReplies = history
+      .filter(message => message.role === "assistant")
+      .slice(-3)
+      .map(message => message.content)
+    const availableReplies = matched.responses.filter(reply => !recentReplies.includes(reply))
+    const replies = availableReplies.length > 0 ? availableReplies : matched.responses
+    return replies[Math.floor(Math.random() * replies.length)]
   }
 
-  return [
-    "Saya bisa bantu jawab soal portofolio, pengalaman, kontak, dan profil Alhadi. Kalau ada pertanyaan yang pribadi atau sensitif, lebih baik langsung hubungi Alhadi lewat kontak yang sudah tertera ya 😄",
-    "Kalau mau, saya bisa jelaskan profil Alhadi, skill, kontak, atau pengalaman kerjanya dengan lebih detail. Untuk yang bersifat personal, silakan ajukan langsung melalui kontak yang tersedia.",
-    "Saya asisten Hadi, siap bantu jawab yang relevan dan santai. Untuk pertanyaan yang sensitif, lebih aman ditanyakan langsung ke Alhadi lewat kontak yang ada ya."
-  ][Math.abs(normalized.length) % 3]
+  const casualReplies = [
+    "Wah, topiknya random juga 😄 Aku bisa ngobrol santai kok. Ceritain sedikit konteksnya biar aku bisa nyambung.",
+    "Boleh banget bahas apa saja. Aku akan coba tanggapi sebaik mungkin—kalau ada yang belum pasti, aku bakal bilang terus terang.",
+    "Hehe, aku tangkap maksudmu. Mau cerita lanjut atau ada bagian tertentu yang pengin dibahas lebih dalam?",
+    "Menarik juga pertanyaannya. Aku mungkin nggak punya pengalaman pribadi, tapi aku bisa bantu ngobrolin atau cari sudut pandang yang masuk akal.",
+    "Siap, kita ngobrol santai aja. Aku nggak harus selalu bahas portofolio—apa yang lagi kepikiran?"
+  ]
+  const recentReplies = history
+    .filter(message => message.role === "assistant")
+    .slice(-3)
+    .map(message => message.content)
+  const availableReplies = casualReplies.filter(reply => !recentReplies.includes(reply))
+  const replies = availableReplies.length > 0 ? availableReplies : casualReplies
+  return replies[Math.floor(Math.random() * replies.length)]
 }
 
 export async function POST(req: NextRequest) {
+  let fallbackInput = "halo"
+  let fallbackHistory: HistoryEntry[] = []
+
   try {
-    const { text, history = [] }: { text: string; history: HistoryEntry[] } = await req.json()
+    const body = await req.json() as { text?: unknown; history?: unknown }
+    const text = typeof body.text === "string" ? body.text.trim() : ""
+    const history = Array.isArray(body.history)
+      ? body.history
+        .filter((entry): entry is HistoryEntry =>
+          typeof entry === "object" &&
+          entry !== null &&
+          ((entry as HistoryEntry).role === "user" || (entry as HistoryEntry).role === "assistant") &&
+          typeof (entry as HistoryEntry).content === "string"
+        )
+        .slice(-12)
+      : []
+    fallbackInput = text || fallbackInput
+    fallbackHistory = history
 
     if (!text) {
       return NextResponse.json({ success: false, message: "Pesan tidak boleh kosong" }, { status: 400 })
@@ -321,7 +351,24 @@ export async function POST(req: NextRequest) {
     const messages = [
       {
         role: "system" as const,
-        content: "Kamu adalah asisten portofolio Alhadi. Jawab dalam bahasa yang digunakan pengguna, dengan ramah dan ringkas. Jika pengguna mengucapkan terima kasih, menyatakan oke/sip, atau berpamitan, balas dengan penutup yang sesuai dan ucapkan terima kasih karena sudah melihat atau berkunjung ke portofolio Alhadi. Informasi yang diketahui: Rahmat, Karim, Reza dan Fadhlul adalah teman sekelas sekaligus teman dekat Alhadi; makanan favorit Alhadi adalah mi ayam. Untuk pertanyaan profesional, kolaborasi, atau orang yang ingin tahu lebih lanjut tentang Alhadi, arahkan ke email alhadiazumifw@gmail.com atau Instagram @alhdzm. Jangan membagikan nomor WhatsApp kecuali pengguna secara eksplisit memintanya. Jangan mengarang detail lain tentang mereka atau favorit Alhadi; bila ditanya hal yang tidak diketahui, katakan dengan jujur bahwa informasinya belum tersedia.",
+        content: `Kamu adalah Hadi Assistant, asisten AI untuk portofolio Alhadi Azumi.
+
+Gaya ngobrol:
+- Tanggapi isi pesan pengguna secara langsung, termasuk obrolan santai atau topik random; jangan selalu mengalihkan percakapan ke portofolio.
+- Ikuti bahasa dan nada pengguna. Utamakan jawaban natural, ramah, ringkas, dan bervariasi; hindari mengulang pembuka atau jawaban yang sama.
+- Untuk pertanyaan umum, bantu jawab dengan pengetahuan umum. Jangan mengaku punya pengalaman atau perasaan pribadi. Akui kalau tidak yakin dan jangan mengarang fakta tentang Alhadi.
+- Ajukan pertanyaan lanjutan hanya bila memang membantu menjaga obrolan.
+- Jika pengguna benar-benar berpamitan atau berterima kasih, balas sewajarnya tanpa selalu memakai kalimat penutup yang sama.
+
+Fakta portofolio Alhadi:
+- Alhadi Azumi adalah mahasiswa Teknik Informatika di Politeknik Negeri Lhokseumawe (PNL), berasal dari Langsa, dan memiliki IPK 3.66. Pendidikan sebelumnya di SMA 3 Langsa.
+- Teknologi yang tercantum: React, Next.js, Tailwind CSS, HTML/CSS, Framer Motion, Node.js, Express.js, Go/Fiber, Laravel, TypeScript, MySQL, PostgreSQL, MongoDB, Prisma, Git, GitHub, Docker, Linux, Nginx, dan Postman.
+- Pengalaman organisasi: UKM Policy PNL (Divisi Networking) dan KOMIT PNL (Divisi Digihub), keduanya pada 2026.
+- Prestasi: Juara 1 OSN Informatika tingkat Kota Langsa jenjang SMA/MA tahun 2024. Sertifikasi Dicoding Akademi: Belajar Dasar AI.
+- Proyek: Cyber Tasker adalah aplikasi manajemen tugas. Pseudonym adalah aplikasi pesan anonim dengan PHP, MySQL/PDO, dan Google OAuth; pesan dan balasan dapat dibaca publik.
+- Teman dekat sekaligus teman sekelas Alhadi adalah Rahmat, Karim, Reza, dan Fadhlul. Makanan favoritnya mi ayam.
+- Untuk urusan profesional, email Alhadi adalah alhadiazumifw@gmail.com dan Instagram-nya @alhdzm. Jangan membagikan nomor WhatsApp kecuali diminta secara eksplisit.
+- Jaga privasi: jangan menebak atau membagikan detail pribadi yang tidak tercantum di atas.`,
       },
       ...history,
       { role: "user", content: text }
@@ -349,7 +396,8 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           model,
           messages,
-          temperature: 0.8,
+          temperature: 0.95,
+          presence_penalty: 0.25,
           max_tokens: 2048,
           stream: true,
         }),
@@ -402,7 +450,7 @@ export async function POST(req: NextRequest) {
       console.error("OpenRouter Error for model:", model, res.status, lastErrorText)
 
       if (res.status === 429) {
-        return new Response(getFallbackReply(text), {
+        return new Response(getFallbackReply(text, history), {
           headers: {
             "Content-Type": "text/plain; charset=utf-8",
             "Cache-Control": "no-cache, no-transform",
@@ -411,7 +459,7 @@ export async function POST(req: NextRequest) {
       }
 
       if (res.status !== 404 && res.status !== 400) {
-        return new Response(getFallbackReply(text), {
+        return new Response(getFallbackReply(text, history), {
           headers: {
             "Content-Type": "text/plain; charset=utf-8",
             "Cache-Control": "no-cache, no-transform",
@@ -420,7 +468,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    return new Response(getFallbackReply(text), {
+    return new Response(getFallbackReply(text, history), {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
         "Cache-Control": "no-cache, no-transform",
@@ -429,7 +477,7 @@ export async function POST(req: NextRequest) {
 
   } catch (error) {
     console.error("Chat API Error:", error)
-    const fallbackText = getFallbackReply("halo")
+    const fallbackText = getFallbackReply(fallbackInput, fallbackHistory)
     return new Response(fallbackText, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
