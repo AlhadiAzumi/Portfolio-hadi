@@ -52,9 +52,9 @@ export default function Contact() {
     const savedMessages = localStorage.getItem("ryhar_chat_messages")
     if (savedMessages) {
       try {
-        const parsed = JSON.parse(savedMessages)
+        const parsed = JSON.parse(savedMessages) as Array<Omit<ChatMessage, "timestamp"> & { timestamp: string | Date }>
         // Convert timestamp strings back to Date objects
-        const formattedMessages = parsed.map((msg: any) => ({
+        const formattedMessages = parsed.map((msg) => ({
           ...msg,
           timestamp: new Date(msg.timestamp)
         }))
@@ -73,7 +73,7 @@ export default function Contact() {
       {
         id: "welcome-msg",
         sender: "bot",
-        text: "Halo! Saya adalah Hadi Assistant. Ada yang bisa saya bantu terkait portofolio, pengalaman, atau project Alhadi?",
+        text: "Hello! I am Hadi Assistant. How can I help you regarding Alhadi's portfolio, experience, or projects?",
         timestamp: new Date()
       }
     ])
@@ -172,7 +172,7 @@ export default function Contact() {
       setChatMessages(prev => [...prev, {
         id: (Date.now() + 1).toString(),
         sender: "bot",
-        text: "Maaf, terjadi kesalahan koneksi atau server AI.",
+        text: "Sorry, a connection error or AI server error occurred.",
         timestamp: new Date()
       }])
     } finally {
@@ -351,13 +351,13 @@ export default function Contact() {
               <button 
                 onClick={setInitialWelcomeMessage} 
                 className="text-text-secondary hover:text-red-500 transition-colors p-2 bg-text-secondary/5 rounded-full"
-                title="Hapus / Mulai Baru"
+                title="Clear / Start New"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                 </svg>
               </button>
-              <button onClick={() => setIsOpenChat(false)} className="text-text-secondary hover:text-text-primary transition-colors p-2 bg-text-secondary/5 rounded-full" title="Tutup">
+              <button onClick={() => setIsOpenChat(false)} className="text-text-secondary hover:text-text-primary transition-colors p-2 bg-text-secondary/5 rounded-full" title="Close">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
@@ -392,9 +392,9 @@ export default function Contact() {
                           ),
                           th: ({node, ...props}) => <th className="border border-text-secondary/20 px-3 py-2 bg-text-secondary/10 font-bold" {...props} />,
                           td: ({node, ...props}) => <td className="border border-text-secondary/20 px-3 py-2" {...props} />,
-                          code: ({node, inline, className, children, ...props}: any) => {
+                          code: ({ className, children, ...props }: React.ComponentPropsWithoutRef<"code">) => {
                             const match = /language-(\w+)/.exec(className || '')
-                            return !inline ? (
+                            return match ? (
                               <pre className="bg-text-primary text-background p-3 rounded-xl overflow-x-auto custom-scrollbar text-xs my-2 font-mono">
                                 <code className={className} {...props}>
                                   {children}
@@ -414,7 +414,7 @@ export default function Contact() {
                     </div>
                   )}
                   <span className={`text-[10px] uppercase font-bold tracking-wider mt-2 block ${msg.sender === "user" ? "text-background/70" : "text-text-secondary/70"}`}>
-                    {msg.timestamp.toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+                    {msg.timestamp.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
                   </span>
                 </div>
               </div>

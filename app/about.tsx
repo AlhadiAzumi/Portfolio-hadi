@@ -42,14 +42,14 @@ export default function About() {
               <div className="flex flex-col">
                 <Fade>
                   <h4 className="text-lg md:text-xl font-bold text-text-primary mb-4 flex items-center border-b border-text-secondary/20 pb-4">Who Am I</h4>
-                  <p className="text-base text-text-secondary leading-relaxed font-medium">Saya Full Stack Developer yang berpengalaman dalam merancang dan mengembangkan aplikasi web menggunakan Node.js, Express.js, Laravel, React, Next.js, TypeScript, Prisma, dan MySQL. Saya terampil dalam membangun REST APIs, mengintegrasikan layanan pihak ketiga, dan sistem otomatisasi.</p>
+                  <p className="text-base text-text-secondary leading-relaxed font-medium">I am a full stack developer experienced in designing and building web applications with Node.js, Express.js, Laravel, React, Next.js, TypeScript, Prisma, and MySQL. I am skilled in building REST APIs, integrating third-party services, and building automation systems.</p>
                 </Fade>
               </div>
               
               <div className="flex flex-col">
                 <Fade>
                   <h4 className="text-lg md:text-xl font-bold text-text-primary mb-4 flex items-center border-b border-text-secondary/20 pb-4">My Approach</h4>
-                  <p className="text-base text-text-secondary leading-relaxed font-medium">Saya berkomitmen untuk memberikan solusi yang efisien, mudah dikelola, dan skalabel melalui praktik terbaik pengembangan perangkat lunak (best software development practices).</p>
+                  <p className="text-base text-text-secondary leading-relaxed font-medium">I am committed to providing efficient, maintainable, and scalable solutions using best software development practices.</p>
                 </Fade>
               </div>
             </div>

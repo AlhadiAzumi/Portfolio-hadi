@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   creator: "Alhadi Azumi",
   openGraph: {
     type: "website",
-    locale: "id_ID",
+    locale: "en_US",
     url: "/",
     title: "Alhadi Azumi | Portfolio",
     description: "Personal portfolio of Alhadi Azumi. Software Developer specializing in Next.js, Node.js, and modern web development.",

@@ -5,8 +5,200 @@ interface HistoryEntry {
   content: string
 }
 
+type Lang = "en" | "id" | "ms"
+
+const MS_MARKERS = ["macam mana", "projek", "nak ", "khabar", "sila", "cuba", "awak", "kawan", "guna ", "malaysia", "tolong"]
+const ID_MARKERS = ["saya ", "kamu ", "gimana", "ngapain", "proyek", "kuliah", "dari mana", "asal mana", "makasih", "bisa ", "boleh ", "halo", "hai", "nggak", "gak "]
+
+function detectLanguage(input: string): Lang {
+  const n = input.toLowerCase()
+  const hasMs = MS_MARKERS.some(marker => n.includes(marker))
+  const hasId = ID_MARKERS.some(marker => n.includes(marker))
+  if (hasMs && !hasId) return "ms"
+  if (hasId) return "id"
+  if (hasMs) return "ms"
+  return "en"
+}
+
+const localizedGroups: { keywords: string[]; en: string[]; id: string[]; ms: string[] }[] = [
+  {
+    keywords: ["hi", "hello", "hey", "halo", "hai", "pagi", "siang", "sore", "malam", "apa khabar"],
+    en: [
+      "Hi! I'm Hadi Assistant. Ask me anything about Alhadi's portfolio, experience, or projects.",
+      "Hello! I'm Hadi Assistant — happy to answer questions about Alhadi's work and background."
+    ],
+    id: [
+      "Halo! Saya Hadi Assistant. Tanya saja soal portofolio, pengalaman, atau proyek Alhadi.",
+      "Hai! Saya Hadi Assistant — siap menjawab pertanyaan tentang karya dan latar belakang Alhadi."
+    ],
+    ms: [
+      "Hai! Saya Hadi Assistant. Tanya apa sahaja tentang portofolio, pengalaman, atau projek Alhadi.",
+      "Helo! Saya Hadi Assistant — sedia menjawab soalan tentang karya dan latar belakang Alhadi."
+    ]
+  },
+  {
+    keywords: ["where from", "where are you from", "hometown", "asal", "dari mana", "come from", "born", "origin", "langsa"],
+    en: [
+      "Alhadi is from Langsa, Aceh, Indonesia. He currently studies Informatics Engineering at Politeknik Negeri Lhokseumawe (PNL).",
+      "He's originally from Langsa, Aceh, and now studies at PNL in Lhokseumawe."
+    ],
+    id: [
+      "Alhadi berasal dari Langsa, Aceh. Saat ini dia kuliah Teknik Informatika di Politeknik Negeri Lhokseumawe (PNL).",
+      "Asalnya dari Langsa, Aceh, dan sekarang studi di PNL, Lhokseumawe."
+    ],
+    ms: [
+      "Alhadi berasal dari Langsa, Aceh, Indonesia. Dia kini belajar Kejuruteraan Sistem Maklumat di Politeknik Negeri Lhokseumawe (PNL).",
+      "Dia asal dari Langsa, Aceh, dan sekarang belajar di PNL, Lhokseumawe."
+    ]
+  },
+  {
+    keywords: ["birthday", "tanggal lahir", "umur", "usia", "age", "personal", "private", "pribadi", "keluarga", "family", "girlfriend", "boyfriend", "pacar", "alamat rumah", "address"],
+    en: [
+      "That's personal information, so I can't share it here. Feel free to ask Alhadi directly via email alhadiazumifw@gmail.com or Instagram @alhdzm.",
+      "Privacy first, so personal details aren't shared through this chat. You can reach Alhadi through the contact details on this page."
+    ],
+    id: [
+      "Itu data pribadi, jadi belum bisa saya bagikan di sini. Silakan tanya langsung ke Alhadi lewat email alhadiazumifw@gmail.com atau Instagram @alhdzm.",
+      "Privasi dulu, jadi detail pribadi tidak dibagikan lewat chat ini. Kamu bisa menghubungi Alhadi lewat kontak yang ada di halaman ini."
+    ],
+    ms: [
+      "Itu maklumat peribadi, jadi saya tak boleh kongsikan di sini. Boleh tanya Alhadi terus melalui email alhadiazumifw@gmail.com atau Instagram @alhdzm.",
+      "Privasi diutamakan, jadi butiran peribadi tidak dikongsi melalui chat ini. Awak boleh hubungi Alhadi melalui butiran kontak di halaman ini."
+    ]
+  },
+  {
+    keywords: ["project", "projects", "proyek", "projek", "portfolio", "porto", "kerja", "built", "build", "aplikasi"],
+    en: [
+      "Alhadi's portfolio features two main projects: Cyber Tasker (task management) and Pseudonym (anonymous secret messaging app with Google login).",
+      "There are two featured projects — Cyber Tasker for managing tasks, and Pseudonym for receiving anonymous messages."
+    ],
+    id: [
+      "Di portofolio Alhadi ada dua proyek utama: Cyber Tasker (manajemen tugas) dan Pseudonym (aplikasi pesan anonim dengan login Google).",
+      "Ada dua proyek unggulan — Cyber Tasker untuk mengatur tugas dan Pseudonym untuk menerima pesan anonim."
+    ],
+    ms: [
+      "Portofolio Alhadi ada dua projek utama: Cyber Tasker (pengurusan tugas) dan Pseudonym (aplikasi mesej anonim dengan log masuk Google).",
+      "Ada dua projek utama — Cyber Tasker untuk mengurus tugas dan Pseudonym untuk menerima mesej anonim."
+    ]
+  },
+  {
+    keywords: ["contact", "email", "whatsapp", "kontak", "hubungi", "instagram", "reach", "hire", "collaborate", "kerja sama"],
+    en: [
+      "You can reach Alhadi via email alhadiazumifw@gmail.com or Instagram @alhdzm. His WhatsApp is 085167811568 if you need it.",
+      "For anything work-related, email alhadiazumifw@gmail.com or Instagram @alhdzm is the fastest route."
+    ],
+    id: [
+      "Kamu bisa menghubungi Alhadi lewat email alhadiazumifw@gmail.com atau Instagram @alhdzm. Nomor WhatsApp-nya 085167811568 kalau kamu perlu.",
+      "Untuk urusan kerja, email alhadiazumifw@gmail.com atau Instagram @alhdzm adalah cara tercepat."
+    ],
+    ms: [
+      "Awak boleh hubungi Alhadi melalui email alhadiazumifw@gmail.com atau Instagram @alhdzm. Nombor WhatsApp-nya 085167811568 jika perlu.",
+      "Untuk hal berkaitan kerja, email alhadiazumifw@gmail.com atau Instagram @alhdzm adalah laluan terpantas."
+    ]
+  },
+  {
+    keywords: ["tech", "stack", "skill", "teknologi", "framework", "react", "next.js", "laravel", "database", "programming", "bahasa pemrograman"],
+    en: [
+      "His stack covers React, Next.js, Tailwind CSS, Node.js, Express, Go/Fiber, Laravel, TypeScript, plus MySQL, PostgreSQL, and MongoDB.",
+      "He works across modern web tooling — React and Next.js on the frontend, Node/Express/Go/Laravel on the backend."
+    ],
+    id: [
+      "Stack-nya mencakup React, Next.js, Tailwind CSS, Node.js, Express, Go/Fiber, Laravel, TypeScript, serta MySQL, PostgreSQL, dan MongoDB.",
+      "Dia bekerja dengan tooling web modern — React dan Next.js di frontend, Node/Express/Go/Laravel di backend."
+    ],
+    ms: [
+      "Stack-nya merangkumi React, Next.js, Tailwind CSS, Node.js, Express, Go/Fiber, Laravel, TypeScript, serta MySQL, PostgreSQL, dan MongoDB.",
+      "Dia menggunakan peralatan web moden — React dan Next.js di frontend, Node/Express/Go/Laravel di backend."
+    ]
+  },
+  {
+    keywords: ["experience", "pengalaman", "riwayat", "organisasi", "ukm", "komit", "osn", "juara", "achievement", "sertifikat", "certification", "dicoding", "ipk", "gpa", "kuliah", "school", "education"],
+    en: [
+      "He studies Informatics Engineering at PNL with a GPA of 3.66, won 1st place in OSN Informatics at Langsa city level (2024), holds a Dicoding AI Basics certificate, and is active in UKM Policy and KOMIT PNL.",
+      "Currently a student at Politeknik Negeri Lhokseumawe with a GPA of 3.66, OSN city-level champion in 2024, and active in campus organizations UKM Policy and KOMIT PNL."
+    ],
+    id: [
+      "Dia kuliah Teknik Informatika di PNL dengan IPK 3.66, meraih Juara 1 OSN Informatika tingkat Kota Langsa (2024), punya sertifikasi Dicoding Belajar Dasar AI, dan aktif di UKM Policy serta KOMIT PNL.",
+      "Saat ini mahasiswa di Politeknik Negeri Lhokseumawe dengan IPK 3.66, juara OSN tingkat kota tahun 2024, dan aktif di UKM Policy serta KOMIT PNL."
+    ],
+    ms: [
+      "Dia belajar Kejuruteraan Sistem Maklumat di PNL dengan IPK 3.66, juara 1 OSN Informatika peringkat bandar Langsa (2024), ada sijil Dicoding Belajar Asas AI, dan aktif dalam UKM Policy serta KOMIT PNL.",
+      "Sekarang pelajar di Politeknik Negeri Lhokseumawe dengan IPK 3.66, juara OSN peringkat bandar pada 2024, dan aktif dalam UKM Policy serta KOMIT PNL."
+    ]
+  },
+  {
+    keywords: ["favorite food", "favourite food", "makanan favorit", "makanan kesukaan", "mi ayam", "mie ayam", "food", "makanan", "suka makan"],
+    en: [
+      "Alhadi's favorite food is mi ayam (chicken noodles) — a classic Indonesian dish he really enjoys.",
+      "Mi ayam is the one: Alhadi's favorite food is mi ayam, chicken noodles with a savory broth."
+    ],
+    id: [
+      "Makanan favorit Alhadi adalah mi ayam! Kalau yang kamu maksud favorit lainnya, aku belum punya informasinya.",
+      "Mi ayam adalah makanan favorit Alhadi. Untuk hal favorit lain, informasinya belum tersedia di sini."
+    ],
+    ms: [
+      "Makanan kegemaran Alhadi ialah mi ayam! Kalau awak maksud kegemaran lain, saya belum ada maklumat tentang itu.",
+      "Mi ayamalah jawapannya: makanan kegemaran Alhadi ialah mi ayam, mi ayam ayam dengan kuah berasa."
+    ]
+  },
+  {
+    keywords: ["friend", "teman", "kawan", "rahmat", "karim", "reza", "fadhlul", "classmate", "teman dekat", "sahabat"],
+    en: [
+      "His close friends and classmates are Rahmat, Karim, Reza, and Fadhlul.",
+      "Alhadi is close with his classmates Rahmat, Karim, Reza, and Fadhlul — that's all the public info I have on them."
+    ],
+    id: [
+      "Teman dekat sekaligus teman sekelas Alhadi adalah Rahmat, Karim, Reza, dan Fadhlul.",
+      "Rahmat, Karim, Reza, dan Fadhlul adalah teman dekat Alhadi di kelas. Itu saja informasi publik soal mereka."
+    ],
+    ms: [
+      "Kawan dekat dan rakan kelas Alhadi ialah Rahmat, Karim, Reza, dan Fadhlul.",
+      "Alhadi dekat dengan rakan sekelasnya, Rahmat, Karim, Reza, dan Fadhlul — itulah sahaja maklumat awam tentang mereka."
+    ]
+  },
+  {
+    keywords: ["thanks", "thank you", "terima kasih", "makasih", "oke", "okay", "sip", "bye", "dadah", "sampai jumpa", "great", "keren", "mantap"],
+    en: [
+      "You're welcome! Thanks for visiting Alhadi's portfolio — have a great day!",
+      "Glad to help! Feel free to come back anytime."
+    ],
+    id: [
+      "Sama-sama! Terima kasih sudah melihat portofolio Alhadi — semoga harimu menyenangkan!",
+      "Senang bisa membantu! Kapan saja boleh kembali lagi."
+    ],
+    ms: [
+      "Sama-sama! Terima kasih sudah melawat portofolio Alhadi — semoga hari awak menyenangkan!",
+      "Senang boleh bantu! Bila-bila masa boleh datang semula."
+    ]
+  }
+]
+
 function getFallbackReply(input: string, history: HistoryEntry[] = []) {
   const normalized = input.toLowerCase().trim()
+  const lang = detectLanguage(input)
+
+  const localizedMatch = localizedGroups.find(group =>
+    group.keywords.some(keyword => normalized.includes(keyword))
+  )
+
+  if (localizedMatch) {
+    const pool = localizedMatch[lang] ?? localizedMatch.en
+    const recent = history
+      .filter(message => message.role === "assistant")
+      .slice(-3)
+      .map(message => message.content)
+    const available = pool.filter(reply => !recent.includes(reply))
+    const choices = available.length > 0 ? available : pool
+    return choices[Math.floor(Math.random() * choices.length)]
+  }
+
+  if (lang === "en") {
+    return "Happy to chat about anything related to Alhadi's portfolio, skills, or projects. What would you like to know?"
+  }
+
+  if (lang === "ms") {
+    return "Boleh kita bincang apa-apa tentang Alhadi. Nak tanya tentang projek, pengalaman, atau kemahirannya?"
+  }
 
   const groups = [
     {
@@ -340,46 +532,51 @@ export async function POST(req: NextRequest) {
     fallbackHistory = history
 
     if (!text) {
-      return NextResponse.json({ success: false, message: "Pesan tidak boleh kosong" }, { status: 400 })
+      return NextResponse.json({ success: false, message: "Message cannot be empty" }, { status: 400 })
     }
 
     const apiKey = process.env.OPENROUTER_APIKEY || process.env.OPENROUTER_API_KEY
     if (!apiKey) {
-      return NextResponse.json({ success: false, message: "Konfigurasi API AI tidak ditemukan." }, { status: 500 })
+      return NextResponse.json({ success: false, message: "AI API configuration not found." }, { status: 500 })
     }
 
     const messages = [
       {
         role: "system" as const,
-        content: `Kamu adalah Hadi Assistant, asisten AI untuk portofolio Alhadi Azumi.
+        content: `You are Hadi Assistant, the AI assistant for Alhadi Azumi's portfolio.
 
-Gaya ngobrol:
-- Tanggapi isi pesan pengguna secara langsung, termasuk obrolan santai atau topik random; jangan selalu mengalihkan percakapan ke portofolio.
-- Ikuti bahasa dan nada pengguna. Utamakan jawaban natural, ramah, ringkas, dan bervariasi; hindari mengulang pembuka atau jawaban yang sama.
-- Untuk pertanyaan umum, bantu jawab dengan pengetahuan umum. Jangan mengaku punya pengalaman atau perasaan pribadi. Akui kalau tidak yakin dan jangan mengarang fakta tentang Alhadi.
-- Ajukan pertanyaan lanjutan hanya bila memang membantu menjaga obrolan.
-- Jika pengguna benar-benar berpamitan atau berterima kasih, balas sewajarnya tanpa selalu memakai kalimat penutup yang sama.
+Multilingual Behavior & Conversation Style:
+- LANGUAGE MIRRORING IS MANDATORY: reply in the EXACT SAME language as the user's message. English question -> English answer. Indonesian question -> Indonesian answer. Malay question -> Malay answer. Any other language -> that language.
+- When a question is ambiguous about who "you" means, assume it refers to Alhadi (this is his portfolio assistant) and answer about Alhadi. If a question asks about the assistant itself, say briefly that you're an AI assistant, then pivot to what you CAN share about Alhadi.
+- Respond directly to what the user says, including casual chat or general questions; do not forcefully redirect every prompt back to the portfolio.
+- Be warm and specific, never generic filler. Avoid canned openers like "As an AI" or "That's a great question". Reference actual details (projects, stack, GPA, OSN, Langsa) when relevant.
+- Never mention which company, provider, or model powers you. You are simply "Hadi Assistant".
+- Only share the WhatsApp number (085167811568) when the user explicitly asks for a WhatsApp/phone number. Never volunteer it as a suggestion for other topics.
+- Keep answers concise (2-4 sentences) and optionally end with a short follow-up question so the conversation continues.
 
-Fakta portofolio Alhadi:
-- Alhadi Azumi adalah mahasiswa Teknik Informatika di Politeknik Negeri Lhokseumawe (PNL), berasal dari Langsa, dan memiliki IPK 3.66. Pendidikan sebelumnya di SMA 3 Langsa.
-- Teknologi yang tercantum: React, Next.js, Tailwind CSS, HTML/CSS, Framer Motion, Node.js, Express.js, Go/Fiber, Laravel, TypeScript, MySQL, PostgreSQL, MongoDB, Prisma, Git, GitHub, Docker, Linux, Nginx, dan Postman.
-- Pengalaman organisasi: UKM Policy PNL (Divisi Networking) dan KOMIT PNL (Divisi Digihub), keduanya pada 2026.
-- Prestasi: Juara 1 OSN Informatika tingkat Kota Langsa jenjang SMA/MA tahun 2024. Sertifikasi Dicoding Akademi: Belajar Dasar AI.
-- Proyek: Cyber Tasker adalah aplikasi manajemen tugas. Pseudonym adalah aplikasi pesan anonim dengan PHP, MySQL/PDO, dan Google OAuth; pesan dan balasan dapat dibaca publik.
-- Teman dekat sekaligus teman sekelas Alhadi adalah Rahmat, Karim, Reza, dan Fadhlul. Makanan favoritnya mi ayam.
-- Untuk urusan profesional, email Alhadi adalah alhadiazumifw@gmail.com dan Instagram-nya @alhdzm. Jangan membagikan nomor WhatsApp kecuali diminta secara eksplisit.
-- Jaga privasi: jangan menebak atau membagikan detail pribadi yang tidak tercantum di atas.`,
+Portfolio facts about Alhadi:
+- Alhadi Azumi is an Informatics Engineering student at Politeknik Negeri Lhokseumawe (PNL), originally from Langsa, with a GPA of 3.66. Previous school: SMA 3 Langsa.
+- Tech stack: React, Next.js, Tailwind CSS, HTML/CSS, Framer Motion, Node.js, Express.js, Go/Fiber, Laravel, TypeScript, MySQL, PostgreSQL, MongoDB, Prisma, Git, GitHub, Docker, Linux, Nginx, and Postman.
+- Organizational roles: UKM Policy PNL (Networking Division) and KOMIT PNL (Digihub Division), both 2026.
+- Achievements: 1st place in OSN Informatics at Langsa city level (SMA/MA track, 2024). Dicoding Certification: AI Basics.
+- Projects: Cyber Tasker (task management app) and Pseudonym (anonymous secret messaging app with Google login, built with PHP & MySQL).
+- Personal tidbits: Favorite food is mi ayam. Classmate & close friends: Rahmat, Karim, Reza, and Fadhlul.
+- Contacts: Professional email is alhadiazumifw@gmail.com, Instagram is @alhdzm. WhatsApp (085167811568) only provided when explicitly asked.
+- Privacy: Never guess or reveal sensitive personal details.`,
       },
       ...history,
       { role: "user", content: text }
     ]
 
     const preferredModels = [
-      process.env.OPENROUTER_MODEL || "qwen/qwen3.8-27b:free",
-      "qwen/qwen3.8-27b:free",
-      "google/gemini-3.5-flash",
       "deepseek/deepseek-v4-flash-0731",
-      "openai/gpt-chat-latest",
+      "nvidia/nemotron-3.5-super-vl:free",
+      "openrouter/free",
+      "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+      "google/gemini-3.5-flash",
+      "liquid/lfm-2.5-2.6b:free",
+      "recursive/flint-v1.0:free",
+      "cohere/north-mini-code:free",
     ].filter(Boolean) as string[]
 
     let lastErrorText = ""
@@ -396,9 +593,8 @@ Fakta portofolio Alhadi:
         body: JSON.stringify({
           model,
           messages,
-          temperature: 0.95,
-          presence_penalty: 0.25,
-          max_tokens: 2048,
+          temperature: 0.9,
+          max_tokens: 1024,
           stream: true,
         }),
       })
@@ -410,14 +606,19 @@ Fakta portofolio Alhadi:
             const decoder = new TextDecoder()
             if (!reader) { controller.close(); return }
 
+            let buffer = ""
             try {
               while (true) {
                 const { done, value } = await reader.read()
                 if (done) break
 
-                const chunk = decoder.decode(value, { stream: true })
-                const lines = chunk.split("\n")
-                for (const line of lines) {
+                buffer += decoder.decode(value, { stream: true })
+
+                let idx: number
+                while ((idx = buffer.indexOf("\n")) !== -1) {
+                  const line = buffer.slice(0, idx)
+                  buffer = buffer.slice(idx + 1)
+
                   if (line.startsWith("data: ")) {
                     const jsonStr = line.slice(6).trim()
                     if (!jsonStr || jsonStr === "[DONE]") continue
@@ -429,6 +630,18 @@ Fakta portofolio Alhadi:
                       }
                     } catch {}
                   }
+                }
+              }
+              if (buffer.trim()) {
+                const jsonStr = buffer.trim()
+                if (!jsonStr.endsWith("[DONE]")) {
+                  try {
+                    const parsed = JSON.parse(jsonStr.replace(/^data: /, ""))
+                    const content = parsed?.choices?.[0]?.delta?.content
+                    if (content) {
+                      controller.enqueue(new TextEncoder().encode(content))
+                    }
+                  } catch {}
                 }
               }
               controller.close()
@@ -449,23 +662,8 @@ Fakta portofolio Alhadi:
       lastErrorText = await res.text()
       console.error("OpenRouter Error for model:", model, res.status, lastErrorText)
 
-      if (res.status === 429) {
-        return new Response(getFallbackReply(text, history), {
-          headers: {
-            "Content-Type": "text/plain; charset=utf-8",
-            "Cache-Control": "no-cache, no-transform",
-          },
-        })
-      }
-
-      if (res.status !== 404 && res.status !== 400) {
-        return new Response(getFallbackReply(text, history), {
-          headers: {
-            "Content-Type": "text/plain; charset=utf-8",
-            "Cache-Control": "no-cache, no-transform",
-          },
-        })
-      }
+      // 404 model tidak ada, 400/402 masalah permintaan/kredit, 429 rate limit, 5xx server: coba model berikutnya
+      continue
     }
 
     return new Response(getFallbackReply(text, history), {
