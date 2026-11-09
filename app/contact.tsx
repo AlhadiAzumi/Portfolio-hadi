@@ -28,6 +28,7 @@ export default function Contact() {
   const [isOpenChat, setIsOpenChat] = useState(false)
   const [chatInput, setChatInput] = useState("")
   const [userName, setUserName] = useState("Guest")
+  const [sessionId, setSessionId] = useState("")
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
   const [isChatLoading, setIsChatLoading] = useState(false)
   const chatEndRef = useRef<HTMLDivElement>(null)
@@ -36,7 +37,7 @@ export default function Contact() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
-  // Initialize Chat from LocalStorage
+  // Initialize Chat from LocalStorage + hydrate server-side history
   useEffect(() => {
     // Check for saved name
     const savedName = localStorage.getItem("ryhar_chat_name")
@@ -48,23 +49,50 @@ export default function Contact() {
       localStorage.setItem("ryhar_chat_name", newName)
     }
 
+    // Stable session id -> lets the server remember the conversation across visits
+    let savedSessionId = localStorage.getItem("ryhar_chat_session_id")
+    if (!savedSessionId) {
+      savedSessionId = `s_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`
+      localStorage.setItem("ryhar_chat_session_id", savedSessionId)
+    }
+    setSessionId(savedSessionId)
+
     // Check for saved messages
     const savedMessages = localStorage.getItem("ryhar_chat_messages")
+    let localMessages: ChatMessage[] = []
     if (savedMessages) {
       try {
         const parsed = JSON.parse(savedMessages) as Array<Omit<ChatMessage, "timestamp"> & { timestamp: string | Date }>
         // Convert timestamp strings back to Date objects
-        const formattedMessages = parsed.map((msg) => ({
+        localMessages = parsed.map((msg) => ({
           ...msg,
           timestamp: new Date(msg.timestamp)
         }))
-        setChatMessages(formattedMessages)
       } catch (e) {
         console.error("Failed to parse saved messages", e)
-        setInitialWelcomeMessage()
       }
+    }
+
+    if (localMessages.length > 0) {
+      setChatMessages(localMessages)
     } else {
-      setInitialWelcomeMessage()
+      // No local cache -> try to restore conversation from the server
+      fetch(`/api/chat?sessionId=${encodeURIComponent(savedSessionId)}`)
+        .then(res => (res.ok ? res.json() : null))
+        .then((data: { success?: boolean; history?: Array<{ role: "user" | "assistant"; content: string; timestamp: string }> } | null) => {
+          if (data?.success && Array.isArray(data.history) && data.history.length > 0) {
+            const restored: ChatMessage[] = data.history.map((msg, index) => ({
+              id: `server-${index}`,
+              sender: msg.role === "user" ? "user" : "bot",
+              text: msg.content,
+              timestamp: new Date(msg.timestamp)
+            }))
+            setChatMessages(restored)
+          } else {
+            setInitialWelcomeMessage()
+          }
+        })
+        .catch(() => setInitialWelcomeMessage())
     }
   }, [])
   
@@ -120,7 +148,7 @@ export default function Contact() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: userText, history }),
+        body: JSON.stringify({ text: userText, history, sessionId }),
       })
       
       if (!response.ok) {

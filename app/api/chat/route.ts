@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { loadHistory, appendMessages } from "./history"
 
 interface HistoryEntry {
   role: "user" | "assistant"
@@ -315,13 +316,13 @@ function getFallbackReply(input: string, history: HistoryEntry[] = []) {
       ]
     },
     {
-      keywords: ["kenapa php", "kenapa mysql", "php jadul", "php kuno", "pseudonym pakai php", "pseudonym pakai mysql", "stack pseudonym"],
+      keywords: ["kenapa php", "kenapa mysql", "php jadul", "php kuno", "pseudonym pakai php", "pseudonym pakai PostgreSQL", "stack pseudonym"],
       responses: [
-        "Pseudonym menggunakan PHP dan MySQL/PDO. Saya belum punya catatan alasan pemilihan stack-nya, jadi tidak mau menebak; pilihan teknologi bisa dibahas langsung dengan Alhadi.",
-        "Iya, stack Pseudonym berbeda dari stack frontend modern yang sering disebut. Repo-nya menggunakan PHP, MySQL dengan PDO, JavaScript, CSS, dan Google OAuth.",
-        "Bahasa atau framework tidak otomatis menentukan kualitas aplikasi. Untuk Pseudonym, yang bisa dipastikan dari repo adalah implementasi PHP/MySQL dan fitur login Google.",
-        "Pseudonym dibuat dengan PHP dan MySQL/PDO. Apakah itu pilihan terbaik bergantung konteks kebutuhan, deployment, dan tujuan proyeknya.",
-        "Kalau penasaran dengan alasan teknis di balik stack Pseudonym, itu pertanyaan bagus untuk Alhadi. Fakta repo yang tercantum: PHP, MySQL/PDO, Google OAuth, JavaScript, dan CSS."
+        "Pseudonym menggunakan PHP dan PostgreSQL yang langsung terintegrasi ke Supabase. Saya belum punya catatan alasan pemilihan stack-nya, jadi tidak mau menebak; pilihan teknologi bisa dibahas langsung dengan Alhadi.",
+        "Iya, stack Pseudonym berbeda dari stack frontend modern yang sering disebut. Repo-nya menggunakan PHP, PostgreSQL dengan PDO, JavaScript, CSS, dan Google OAuth.",
+        "Bahasa atau framework tidak otomatis menentukan kualitas aplikasi. Untuk Pseudonym, yang bisa dipastikan dari repo adalah implementasi PHP/PostgreSQL dan fitur login Google.",
+        "Pseudonym dibuat dengan PHP dan PostgreSQL. Apakah itu pilihan terbaik bergantung konteks kebutuhan, deployment, dan tujuan proyeknya.",
+        "Kalau penasaran dengan alasan teknis di balik stack Pseudonym, itu pertanyaan bagus untuk Alhadi. Fakta repo yang tercantum: PHP, PostgreSQL, Google OAuth, JavaScript, dan CSS."
       ]
     },
     {
@@ -511,23 +512,38 @@ function getFallbackReply(input: string, history: HistoryEntry[] = []) {
   return replies[Math.floor(Math.random() * replies.length)]
 }
 
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url)
+  const sessionId = searchParams.get("sessionId")
+  if (!sessionId) {
+    return NextResponse.json({ success: false, message: "Missing sessionId" }, { status: 400 })
+  }
+  const history = await loadHistory(sessionId)
+  return NextResponse.json({ success: true, history })
+}
+
 export async function POST(req: NextRequest) {
   let fallbackInput = "halo"
   let fallbackHistory: HistoryEntry[] = []
+  let currentSessionId = "default"
 
   try {
-    const body = await req.json() as { text?: unknown; history?: unknown }
+    const body = await req.json() as { text?: unknown; history?: unknown; sessionId?: unknown }
     const text = typeof body.text === "string" ? body.text.trim() : ""
-    const history = Array.isArray(body.history)
-      ? body.history
-        .filter((entry): entry is HistoryEntry =>
+    currentSessionId = typeof body.sessionId === "string" && body.sessionId.trim() ? body.sessionId.trim() : "default"
+
+    // Load server-stored history for this session
+    const serverStored = await loadHistory(currentSessionId)
+
+    const history = Array.isArray(body.history) && body.history.length > 0
+      ? body.history.filter((entry): entry is HistoryEntry =>
           typeof entry === "object" &&
           entry !== null &&
           ((entry as HistoryEntry).role === "user" || (entry as HistoryEntry).role === "assistant") &&
           typeof (entry as HistoryEntry).content === "string"
-        )
-        .slice(-12)
-      : []
+        ).slice(-20)
+      : serverStored.map(msg => ({ role: msg.role, content: msg.content })).slice(-20)
+
     fallbackInput = text || fallbackInput
     fallbackHistory = history
 
@@ -547,6 +563,7 @@ export async function POST(req: NextRequest) {
 
 Multilingual Behavior & Conversation Style:
 - LANGUAGE MIRRORING IS MANDATORY: reply in the EXACT SAME language as the user's message. English question -> English answer. Indonesian question -> Indonesian answer. Malay question -> Malay answer. Any other language -> that language.
+- You have access to persistent session history: remember details the user shares with you during chat sessions.
 - When a question is ambiguous about who "you" means, assume it refers to Alhadi (this is his portfolio assistant) and answer about Alhadi. If a question asks about the assistant itself, say briefly that you're an AI assistant, then pivot to what you CAN share about Alhadi.
 - Respond directly to what the user says, including casual chat or general questions; do not forcefully redirect every prompt back to the portfolio.
 - Be warm and specific, never generic filler. Avoid canned openers like "As an AI" or "That's a great question". Reference actual details (projects, stack, GPA, OSN, Langsa) when relevant.
@@ -559,7 +576,7 @@ Portfolio facts about Alhadi:
 - Tech stack: React, Next.js, Tailwind CSS, HTML/CSS, Framer Motion, Node.js, Express.js, Go/Fiber, Laravel, TypeScript, MySQL, PostgreSQL, MongoDB, Prisma, Git, GitHub, Docker, Linux, Nginx, and Postman.
 - Organizational roles: UKM Policy PNL (Networking Division) and KOMIT PNL (Digihub Division), both 2026.
 - Achievements: 1st place in OSN Informatics at Langsa city level (SMA/MA track, 2024). Dicoding Certification: AI Basics.
-- Projects: Cyber Tasker (task management app) and Pseudonym (anonymous secret messaging app with Google login, built with PHP & MySQL).
+- Projects: Cyber Tasker (task management app) and Pseudonym (anonymous secret messaging app with Google login, built with PHP & PostgreSQL(Supabase)).
 - Personal tidbits: Favorite food is mi ayam. Classmate & close friends: Rahmat, Karim, Reza, and Fadhlul.
 - Contacts: Professional email is alhadiazumifw@gmail.com, Instagram is @alhdzm. WhatsApp (085167811568) only provided when explicitly asked.
 - Privacy: Never guess or reveal sensitive personal details.`,
@@ -578,8 +595,6 @@ Portfolio facts about Alhadi:
       "recursive/flint-v1.0:free",
       "cohere/north-mini-code:free",
     ].filter(Boolean) as string[]
-
-    let lastErrorText = ""
 
     for (const model of preferredModels) {
       const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -600,6 +615,8 @@ Portfolio facts about Alhadi:
       })
 
       if (res.ok) {
+        const timestamp = new Date().toISOString()
+
         const readable = new ReadableStream({
           async start(controller) {
             const reader = res.body?.getReader()
@@ -607,6 +624,8 @@ Portfolio facts about Alhadi:
             if (!reader) { controller.close(); return }
 
             let buffer = ""
+            let fullReply = ""
+
             try {
               while (true) {
                 const { done, value } = await reader.read()
@@ -626,12 +645,14 @@ Portfolio facts about Alhadi:
                       const parsed = JSON.parse(jsonStr)
                       const content = parsed?.choices?.[0]?.delta?.content
                       if (content) {
+                        fullReply += content
                         controller.enqueue(new TextEncoder().encode(content))
                       }
                     } catch {}
                   }
                 }
               }
+
               if (buffer.trim()) {
                 const jsonStr = buffer.trim()
                 if (!jsonStr.endsWith("[DONE]")) {
@@ -639,11 +660,21 @@ Portfolio facts about Alhadi:
                     const parsed = JSON.parse(jsonStr.replace(/^data: /, ""))
                     const content = parsed?.choices?.[0]?.delta?.content
                     if (content) {
+                      fullReply += content
                       controller.enqueue(new TextEncoder().encode(content))
                     }
                   } catch {}
                 }
               }
+
+              // Persist chat to file store
+              if (fullReply) {
+                await appendMessages(currentSessionId, [
+                  { role: "user", content: text, timestamp },
+                  { role: "assistant", content: fullReply, timestamp: new Date().toISOString() }
+                ])
+              }
+
               controller.close()
             } catch (e) {
               controller.error(e)
@@ -659,14 +690,18 @@ Portfolio facts about Alhadi:
         })
       }
 
-      lastErrorText = await res.text()
-      console.error("OpenRouter Error for model:", model, res.status, lastErrorText)
-
-      // 404 model tidak ada, 400/402 masalah permintaan/kredit, 429 rate limit, 5xx server: coba model berikutnya
+      const errText = await res.text()
+      console.error("OpenRouter Error for model:", model, res.status, errText)
       continue
     }
 
-    return new Response(getFallbackReply(text, history), {
+    const fallbackText = getFallbackReply(text, history)
+    await appendMessages(currentSessionId, [
+      { role: "user", content: text, timestamp: new Date().toISOString() },
+      { role: "assistant", content: fallbackText, timestamp: new Date().toISOString() }
+    ])
+
+    return new Response(fallbackText, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
         "Cache-Control": "no-cache, no-transform",
