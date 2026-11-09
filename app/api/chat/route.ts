@@ -569,7 +569,8 @@ Multilingual Behavior & Conversation Style:
 - Be warm and specific, never generic filler. Avoid canned openers like "As an AI" or "That's a great question". Reference actual details (projects, stack, GPA, OSN, Langsa) when relevant.
 - Never mention which company, provider, or model powers you. You are simply "Hadi Assistant".
 - Only share the WhatsApp number (085167811568) when the user explicitly asks for a WhatsApp/phone number. Never volunteer it as a suggestion for other topics.
-- Keep answers concise (2-4 sentences) and optionally end with a short follow-up question so the conversation continues.
+- Vary your phrasing and sentence openings between replies; never reuse the same template, opener, or closing from your previous messages. Repetition is a failure.
+- Match the answer length to the question: one line for simple questions, up to 4 short sentences when detail is genuinely useful. Do not force a closing follow-up question every time; use one only when it feels natural.
 
 Portfolio facts about Alhadi:
 - Alhadi Azumi is an Informatics Engineering student at Politeknik Negeri Lhokseumawe (PNL), originally from Langsa, with a GPA of 3.66. Previous school: SMA 3 Langsa.
@@ -585,16 +586,21 @@ Portfolio facts about Alhadi:
       { role: "user", content: text }
     ]
 
+    const envModels = (process.env.OPENROUTER_MODEL || "")
+      .split(",")
+      .map(model => model.trim())
+      .filter(Boolean)
+
     const preferredModels = [
+      ...envModels,
       "deepseek/deepseek-v4-flash-0731",
-      "nvidia/nemotron-3.5-super-vl:free",
-      "openrouter/free",
-      "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
       "google/gemini-3.5-flash",
+      "nvidia/nemotron-3.5-super-vl:free",
+      "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
       "liquid/lfm-2.5-2.6b:free",
       "recursive/flint-v1.0:free",
       "cohere/north-mini-code:free",
-    ].filter(Boolean) as string[]
+    ].filter((model, index, list) => Boolean(model) && list.indexOf(model) === index)
 
     for (const model of preferredModels) {
       const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -608,8 +614,11 @@ Portfolio facts about Alhadi:
         body: JSON.stringify({
           model,
           messages,
-          temperature: 0.9,
-          max_tokens: 1024,
+          temperature: 0.85,
+          top_p: 0.95,
+          presence_penalty: 0.5,
+          frequency_penalty: 0.4,
+          max_tokens: 1500,
           stream: true,
         }),
       })
@@ -667,12 +676,16 @@ Portfolio facts about Alhadi:
                 }
               }
 
-              // Persist chat to file store
+              // Persist chat to file store. Storage failures must never break the response.
               if (fullReply) {
-                await appendMessages(currentSessionId, [
-                  { role: "user", content: text, timestamp },
-                  { role: "assistant", content: fullReply, timestamp: new Date().toISOString() }
-                ])
+                try {
+                  await appendMessages(currentSessionId, [
+                    { role: "user", content: text, timestamp },
+                    { role: "assistant", content: fullReply, timestamp: new Date().toISOString() }
+                  ])
+                } catch (storageError) {
+                  console.error("Failed to persist chat history:", storageError)
+                }
               }
 
               controller.close()
@@ -696,10 +709,14 @@ Portfolio facts about Alhadi:
     }
 
     const fallbackText = getFallbackReply(text, history)
-    await appendMessages(currentSessionId, [
-      { role: "user", content: text, timestamp: new Date().toISOString() },
-      { role: "assistant", content: fallbackText, timestamp: new Date().toISOString() }
-    ])
+    try {
+      await appendMessages(currentSessionId, [
+        { role: "user", content: text, timestamp: new Date().toISOString() },
+        { role: "assistant", content: fallbackText, timestamp: new Date().toISOString() }
+      ])
+    } catch (storageError) {
+      console.error("Failed to persist chat history:", storageError)
+    }
 
     return new Response(fallbackText, {
       headers: {
