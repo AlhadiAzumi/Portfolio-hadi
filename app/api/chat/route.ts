@@ -593,9 +593,11 @@ Portfolio facts about Alhadi:
 
     const preferredModels = [
       ...envModels,
-      "deepseek/deepseek-v4-flash-0731",
+      "google/gemini-2.5-flash",
       "google/gemini-3.5-flash",
+      "deepseek/deepseek-chat",
       "nvidia/nemotron-3.5-super-vl:free",
+      "deepseek/deepseek-v4-flash-0731",
       "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
       "liquid/lfm-2.5-2.6b:free",
       "recursive/flint-v1.0:free",
@@ -634,6 +636,7 @@ Portfolio facts about Alhadi:
 
             let buffer = ""
             let fullReply = ""
+            let gotContent = false
 
             try {
               while (true) {
@@ -676,8 +679,8 @@ Portfolio facts about Alhadi:
                 }
               }
 
-              // Persist chat to file store. Storage failures must never break the response.
               if (fullReply) {
+                gotContent = true
                 try {
                   await appendMessages(currentSessionId, [
                     { role: "user", content: text, timestamp },
@@ -686,12 +689,19 @@ Portfolio facts about Alhadi:
                 } catch (storageError) {
                   console.error("Failed to persist chat history:", storageError)
                 }
+
+                controller.close()
+                return
               }
 
+              // Model returned an empty stream (e.g. reasoning-only model with
+              // no delta.content). Try the next model instead of blanking out.
               controller.close()
             } catch (e) {
               controller.error(e)
             }
+
+            if (gotContent) return
           }
         })
 
