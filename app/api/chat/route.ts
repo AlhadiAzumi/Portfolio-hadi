@@ -594,128 +594,67 @@ Portfolio facts about Alhadi:
     const preferredModels = [
       ...envModels,
       "google/gemini-2.5-flash",
-      "google/gemini-3.5-flash",
       "deepseek/deepseek-chat",
+      "google/gemini-3.5-flash",
       "nvidia/nemotron-3.5-super-vl:free",
-      "deepseek/deepseek-v4-flash-0731",
-      "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
-      "liquid/lfm-2.5-2.6b:free",
-      "recursive/flint-v1.0:free",
-      "cohere/north-mini-code:free",
     ].filter((model, index, list) => Boolean(model) && list.indexOf(model) === index)
 
     for (const model of preferredModels) {
-      const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-          "HTTP-Referer": process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
-          "X-Title": "Hadi Portfolio Assistant",
-        },
-        body: JSON.stringify({
-          model,
-          messages,
-          temperature: 0.85,
-          top_p: 0.95,
-          presence_penalty: 0.5,
-          frequency_penalty: 0.4,
-          max_tokens: 1500,
-          stream: true,
-        }),
-      })
-
-      if (res.ok) {
-        const timestamp = new Date().toISOString()
-
-        const readable = new ReadableStream({
-          async start(controller) {
-            const reader = res.body?.getReader()
-            const decoder = new TextDecoder()
-            if (!reader) { controller.close(); return }
-
-            let buffer = ""
-            let fullReply = ""
-            let gotContent = false
-
-            try {
-              while (true) {
-                const { done, value } = await reader.read()
-                if (done) break
-
-                buffer += decoder.decode(value, { stream: true })
-
-                let idx: number
-                while ((idx = buffer.indexOf("\n")) !== -1) {
-                  const line = buffer.slice(0, idx)
-                  buffer = buffer.slice(idx + 1)
-
-                  if (line.startsWith("data: ")) {
-                    const jsonStr = line.slice(6).trim()
-                    if (!jsonStr || jsonStr === "[DONE]") continue
-                    try {
-                      const parsed = JSON.parse(jsonStr)
-                      const content = parsed?.choices?.[0]?.delta?.content
-                      if (content) {
-                        fullReply += content
-                        controller.enqueue(new TextEncoder().encode(content))
-                      }
-                    } catch {}
-                  }
-                }
-              }
-
-              if (buffer.trim()) {
-                const jsonStr = buffer.trim()
-                if (!jsonStr.endsWith("[DONE]")) {
-                  try {
-                    const parsed = JSON.parse(jsonStr.replace(/^data: /, ""))
-                    const content = parsed?.choices?.[0]?.delta?.content
-                    if (content) {
-                      fullReply += content
-                      controller.enqueue(new TextEncoder().encode(content))
-                    }
-                  } catch {}
-                }
-              }
-
-              if (fullReply) {
-                gotContent = true
-                try {
-                  await appendMessages(currentSessionId, [
-                    { role: "user", content: text, timestamp },
-                    { role: "assistant", content: fullReply, timestamp: new Date().toISOString() }
-                  ])
-                } catch (storageError) {
-                  console.error("Failed to persist chat history:", storageError)
-                }
-
-                controller.close()
-                return
-              }
-
-              // Model returned an empty stream (e.g. reasoning-only model with
-              // no delta.content). Try the next model instead of blanking out.
-              controller.close()
-            } catch (e) {
-              controller.error(e)
-            }
-
-            if (gotContent) return
-          }
+      try {
+        const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+            "HTTP-Referer": process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
+            "X-Title": "Hadi Portfolio Assistant",
+          },
+          body: JSON.stringify({
+            model,
+            messages,
+            temperature: 0.85,
+            top_p: 0.95,
+            presence_penalty: 0.5,
+            frequency_penalty: 0.4,
+            max_tokens: 1500,
+            stream: false,
+          }),
         })
 
-        return new Response(readable, {
+        if (!res.ok) {
+          const errText = await res.text()
+          console.error("OpenRouter Error for model:", model, res.status, errText)
+          continue
+        }
+
+        const data = await res.json()
+        const fullReply = data?.choices?.[0]?.message?.content?.trim()
+
+        if (!fullReply) {
+          console.warn(`Model ${model} returned empty content, trying next model...`)
+          continue
+        }
+
+        const timestamp = new Date().toISOString()
+        try {
+          await appendMessages(currentSessionId, [
+            { role: "user", content: text, timestamp },
+            { role: "assistant", content: fullReply, timestamp: new Date().toISOString() }
+          ])
+        } catch (storageError) {
+          console.error("Failed to persist chat history:", storageError)
+        }
+
+        return new Response(fullReply, {
           headers: {
             "Content-Type": "text/plain; charset=utf-8",
             "Cache-Control": "no-cache, no-transform",
           }
         })
+      } catch (err) {
+        console.error(`Fetch error for model ${model}:`, err)
+        continue
       }
-
-      const errText = await res.text()
-      console.error("OpenRouter Error for model:", model, res.status, errText)
-      continue
     }
 
     const fallbackText = getFallbackReply(text, history)
