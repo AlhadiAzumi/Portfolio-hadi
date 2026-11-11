@@ -20,6 +20,7 @@ function ProjectArtwork({ imagePath, title }: { imagePath: string | null; title:
 
 export default function Project() {
   const [isOpen, setIsOpen] = useState<number | null>(null)
+  const [showAllProjects, setShowAllProjects] = useState(false)
 
   // Prevent scrolling when modal is open
   useEffect(() => {
@@ -47,8 +48,8 @@ export default function Project() {
 
         {/* Desktop View: Grid */}
         <div className="hidden lg:grid max-w-7xl mx-auto grid-cols-2 gap-8 px-6 md:px-12">
-          {projectList.map((project, index) => (
-            <FadeUp key={`desktop-${index}`}>
+          {(showAllProjects ? projectList : projectList.slice(0, 2)).map((project) => (
+            <FadeUp key={`desktop-${project.index}`}>
               <GlareHover className="group flex flex-col h-full bg-background border border-text-secondary/20 hover:border-text-primary/50 rounded-xl overflow-hidden transition-all duration-500 shadow-sm hover:shadow-2xl">
                 <div className="relative overflow-hidden aspect-[16/10] bg-text-secondary/5 border-b border-text-secondary/10">
                   <ProjectArtwork imagePath={project.imagePath} title={project.title} />
@@ -92,102 +93,70 @@ export default function Project() {
           ))}
         </div>
 
-        {/* Mobile & Tablet View: Infinite Loop Slider */}
-        <div className="lg:hidden w-full overflow-hidden relative py-4">
-          <div className="flex w-max animate-infinite-scroll hover:[animation-play-state:paused]">
-            <div className="flex gap-6 px-3">
-              {projectList.map((project, index) => (
-                <div key={`mobile1-${index}`} className="w-[85vw] sm:w-[400px] flex-shrink-0">
-                  <GlareHover className="group flex flex-col h-full bg-background border border-text-secondary/20 hover:border-text-primary/50 rounded-xl overflow-hidden transition-all duration-500 shadow-sm hover:shadow-2xl">
-                    <div className="relative overflow-hidden aspect-[16/10] bg-text-secondary/5 border-b border-text-secondary/10">
-                      <ProjectArtwork imagePath={project.imagePath} title={project.title} />
-
-                      {/* Tech Stack Overlay */}
-                      <div className="absolute top-4 right-4 flex flex-wrap gap-2 justify-end z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-[-10px] group-hover:translate-y-0">
-                        {project.tech.slice(0, 3).map((tech, i) => (
-                          <span key={i} className="text-[10px] font-bold bg-background/90 text-text-primary px-2 py-1 rounded backdrop-blur-md border border-text-secondary/20 uppercase tracking-widest shadow-sm">
-                            {tech}
-                          </span>
-                        ))}
-                        {project.tech.length > 3 && <span className="text-[10px] font-bold bg-background/90 text-text-primary px-2 py-1 rounded backdrop-blur-md border border-text-secondary/20 uppercase tracking-widest shadow-sm">+{project.tech.length - 3}</span>}
-                      </div>
-                    </div>
-
-                    <div className="p-6 md:p-8 flex flex-col flex-grow relative">
-                      {/* Numbering */}
-                      <div className="absolute top-0 right-6 -translate-y-1/2 bg-background border border-text-secondary/20 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest text-text-secondary shadow-sm">{String(project.index + 1).padStart(2, "0")}</div>
-
-                      <div className="flex justify-between items-start mb-4">
-                        <h4 className="text-2xl font-black text-text-primary tracking-tight leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-text-primary group-hover:to-text-secondary transition-all duration-500">{project.title}</h4>
-                      </div>
-
-                      <p className="text-sm text-text-secondary font-medium leading-relaxed mb-8 flex-grow line-clamp-3">{project.shortDescription}</p>
-
-                      <div className="flex items-center justify-between mt-auto pt-4 border-t border-text-secondary/10">
-                        <button className="text-xs font-bold tracking-[0.2em] uppercase text-text-primary flex items-center gap-3 group/btn" onClick={() => setIsOpen(project.index)}>
-                          View Details
-                          <span className="w-8 h-[2px] bg-text-primary group-hover/btn:w-12 transition-all duration-300"></span>
-                        </button>
-
-                        {project.liveDemoUrl && <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer" className="p-2 border border-text-secondary/20 rounded-full text-text-secondary hover:text-background hover:bg-text-primary hover:border-text-primary transition-all duration-300">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                          </svg>
-                        </a>}
-                      </div>
-                    </div>
-                  </GlareHover>
-                </div>
-              ))}
-            </div>
-            
-            <div className="flex gap-6 px-3">
-              {projectList.map((project, index) => (
-                <div key={`mobile2-${index}`} className="w-[85vw] sm:w-[400px] flex-shrink-0">
-                  <GlareHover className="group flex flex-col h-full bg-background border border-text-secondary/20 hover:border-text-primary/50 rounded-xl overflow-hidden transition-all duration-500 shadow-sm hover:shadow-2xl">
-                    <div className="relative overflow-hidden aspect-[16/10] bg-text-secondary/5 border-b border-text-secondary/10">
-                      <ProjectArtwork imagePath={project.imagePath} title={project.title} />
-
-                      {/* Tech Stack Overlay */}
-                      <div className="absolute top-4 right-4 flex flex-wrap gap-2 justify-end z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-[-10px] group-hover:translate-y-0">
-                        {project.tech.slice(0, 3).map((tech, i) => (
-                          <span key={i} className="text-[10px] font-bold bg-background/90 text-text-primary px-2 py-1 rounded backdrop-blur-md border border-text-secondary/20 uppercase tracking-widest shadow-sm">
-                            {tech}
-                          </span>
-                        ))}
-                        {project.tech.length > 3 && <span className="text-[10px] font-bold bg-background/90 text-text-primary px-2 py-1 rounded backdrop-blur-md border border-text-secondary/20 uppercase tracking-widest shadow-sm">+{project.tech.length - 3}</span>}
-                      </div>
-                    </div>
-
-                    <div className="p-6 md:p-8 flex flex-col flex-grow relative">
-                      {/* Numbering */}
-                      <div className="absolute top-0 right-6 -translate-y-1/2 bg-background border border-text-secondary/20 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest text-text-secondary shadow-sm">{String(project.index + 1).padStart(2, "0")}</div>
-
-                      <div className="flex justify-between items-start mb-4">
-                        <h4 className="text-2xl font-black text-text-primary tracking-tight leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-text-primary group-hover:to-text-secondary transition-all duration-500">{project.title}</h4>
-                      </div>
-
-                      <p className="text-sm text-text-secondary font-medium leading-relaxed mb-8 flex-grow line-clamp-3">{project.shortDescription}</p>
-
-                      <div className="flex items-center justify-between mt-auto pt-4 border-t border-text-secondary/10">
-                        <button className="text-xs font-bold tracking-[0.2em] uppercase text-text-primary flex items-center gap-3 group/btn" onClick={() => setIsOpen(project.index)}>
-                          View Details
-                          <span className="w-8 h-[2px] bg-text-primary group-hover/btn:w-12 transition-all duration-300"></span>
-                        </button>
-
-                        {project.liveDemoUrl && <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer" className="p-2 border border-text-secondary/20 rounded-full text-text-secondary hover:text-background hover:bg-text-primary hover:border-text-primary transition-all duration-300">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                          </svg>
-                        </a>}
-                      </div>
-                    </div>
-                  </GlareHover>
-                </div>
-              ))}
-            </div>
+        {projectList.length > 2 && (
+          <div className="hidden lg:flex justify-center mt-10">
+            <button
+              type="button"
+              onClick={() => setShowAllProjects((prev) => !prev)}
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-background border border-text-secondary/20 text-text-primary hover:border-text-primary hover:bg-text-primary hover:text-background rounded-xl font-bold tracking-widest text-sm uppercase transition-all duration-300 ease-out hover:-translate-y-1.5 hover:scale-[1.02] shadow-sm hover:shadow-xl"
+            >
+              <span>{showAllProjects ? "See Less" : "See More"}</span>
+              <svg className={`w-5 h-5 transition-transform duration-300 ${showAllProjects ? "rotate-180" : "group-hover:translate-y-0.5"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
           </div>
+        )}
+
+        {/* Mobile & Tablet View: Swipeable Slider */}
+        <div className="lg:hidden w-full overflow-x-auto pb-4 snap-x snap-mandatory custom-scrollbar scroll-px-6">
+          <div className="flex w-max gap-6 px-6">
+            {projectList.map((project) => (
+              <div key={`mobile-${project.index}`} className="w-[85vw] sm:w-[400px] flex-shrink-0 snap-start">
+                  <GlareHover className="group flex flex-col h-full bg-background border border-text-secondary/20 hover:border-text-primary/50 rounded-xl overflow-hidden transition-all duration-500 shadow-sm hover:shadow-2xl">
+                    <div className="relative overflow-hidden aspect-[16/10] bg-text-secondary/5 border-b border-text-secondary/10">
+                      <ProjectArtwork imagePath={project.imagePath} title={project.title} />
+
+                      {/* Tech Stack Overlay */}
+                      <div className="absolute top-4 right-4 flex flex-wrap gap-2 justify-end z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-[-10px] group-hover:translate-y-0">
+                        {project.tech.slice(0, 3).map((tech, i) => (
+                          <span key={i} className="text-[10px] font-bold bg-background/90 text-text-primary px-2 py-1 rounded backdrop-blur-md border border-text-secondary/20 uppercase tracking-widest shadow-sm">
+                            {tech}
+                          </span>
+                        ))}
+                        {project.tech.length > 3 && <span className="text-[10px] font-bold bg-background/90 text-text-primary px-2 py-1 rounded backdrop-blur-md border border-text-secondary/20 uppercase tracking-widest shadow-sm">+{project.tech.length - 3}</span>}
+                      </div>
+                    </div>
+
+                    <div className="p-6 md:p-8 flex flex-col flex-grow relative">
+                      {/* Numbering */}
+                      <div className="absolute top-0 right-6 -translate-y-1/2 bg-background border border-text-secondary/20 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest text-text-secondary shadow-sm">{String(project.index + 1).padStart(2, "0")}</div>
+
+                      <div className="flex justify-between items-start mb-4">
+                        <h4 className="text-2xl font-black text-text-primary tracking-tight leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-text-primary group-hover:to-text-secondary transition-all duration-500">{project.title}</h4>
+                      </div>
+
+                      <p className="text-sm text-text-secondary font-medium leading-relaxed mb-8 flex-grow line-clamp-3">{project.shortDescription}</p>
+
+                      <div className="flex items-center justify-between mt-auto pt-4 border-t border-text-secondary/10">
+                        <button className="text-xs font-bold tracking-[0.2em] uppercase text-text-primary flex items-center gap-3 group/btn" onClick={() => setIsOpen(project.index)}>
+                          View Details
+                          <span className="w-8 h-[2px] bg-text-primary group-hover/btn:w-12 transition-all duration-300"></span>
+                        </button>
+
+                        {project.liveDemoUrl && <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer" className="p-2 border border-text-secondary/20 rounded-full text-text-secondary hover:text-background hover:bg-text-primary hover:border-text-primary transition-all duration-300">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </a>}
+                      </div>
+                    </div>
+                  </GlareHover>
+                </div>
+              ))}
+            </div>
         </div>
+
 
         <FadeUp>
           <div className="mt-16 flex justify-center w-full px-6">

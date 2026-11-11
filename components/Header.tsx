@@ -81,7 +81,7 @@ export default function Header() {
                   onClick={() => handleScroll(item.link)} 
                   key={index} 
                   className={`
-                    ${activeSection === item.name.toLowerCase() ? "text-text-primary font-bold" : "text-text-secondary font-medium hover:text-text-primary"} 
+                    ${activeSection === item.link ? "text-text-primary font-bold" : "text-text-secondary font-medium hover:text-text-primary"} 
                     cursor-pointer text-sm md:text-base tracking-wide flex flex-row items-center transition-colors duration-200 ease-in-out
                   `}
                 >
@@ -115,7 +115,7 @@ export default function Header() {
               </button>
             </div>
 
-            <div className={`${isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0"} md:hidden transform absolute top-16 right-4 z-50 origin-top-right transition-all duration-300 ease-in-out`}>
+            <div className={`${isOpen ? "scale-100 opacity-100" : "scale-0 opacity-0"} lg:hidden transform absolute top-16 right-4 z-50 origin-top-right transition-all duration-300 ease-in-out`}>
               {/* Mobile Menu Placeholder */}
               <div className="flex flex-col gap-6 bg-background/95 backdrop-blur-md border border-text-secondary/10 p-6 rounded-2xl shadow-xl w-48">
                 {shortCut.map((item, index) => (
@@ -123,7 +123,7 @@ export default function Header() {
                     onClick={() => { handleScroll(item.link); setIsOpen(false); }} 
                     key={index} 
                     className={`
-                      ${activeSection === item.name.toLowerCase() ? "text-text-primary font-bold" : "text-text-secondary font-medium"} 
+                      ${activeSection === item.link ? "text-text-primary font-bold" : "text-text-secondary font-medium"} 
                       cursor-pointer text-sm md:text-base flex flex-row items-center hover:text-text-primary transition-colors duration-200 ease-in-out
                     `}
                   >
@@ -151,6 +151,10 @@ const shortCut = [
   {
     name: "Experience",
     link: "experience",
+  },
+  {
+    name: "Certifications",
+    link: "certifications",
   },
   {
     name: "Projects",

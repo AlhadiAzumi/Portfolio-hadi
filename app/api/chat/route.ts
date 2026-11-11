@@ -113,18 +113,18 @@ const localizedGroups: { keywords: string[]; en: string[]; id: string[]; ms: str
     ]
   },
   {
-    keywords: ["experience", "pengalaman", "riwayat", "organisasi", "ukm", "komit", "osn", "juara", "achievement", "sertifikat", "certification", "dicoding", "ipk", "gpa", "kuliah", "school", "education"],
+    keywords: ["experience", "pengalaman", "riwayat", "organisasi", "ukm", "komit", "osn", "juara", "achievement", "sertifikat", "sertifikasi", "certification", "dicoding", "btf", "c3sa", "mercor", "freecodecamp", "cyberwarfare", "cyber security", "blue team", "model mechanics", "python", "agents", "ipk", "gpa", "kuliah", "school", "education"],
     en: [
-      "He studies Informatics Engineering at PNL with a GPA of 3.66, won 1st place in OSN Informatics at Langsa city level (2024), holds a Dicoding AI Basics certificate, and is active in UKM Policy and KOMIT PNL.",
-      "Currently a student at Politeknik Negeri Lhokseumawe with a GPA of 3.66, OSN city-level champion in 2024, and active in campus organizations UKM Policy and KOMIT PNL."
+      "He studies Informatics Engineering at PNL with a GPA of 3.66 and won 1st place in OSN Informatics at Langsa city level (2024). His certifications include Certified Blue Team Fundamentals (BTF) and Certified Cyber Security Analyst (C3SA) from CyberWarFare Labs, Mercor's Mastering Model Mechanics and Introduction to Agents, freeCodeCamp's Scientific Computing with Python, and Dicoding's Learn Basic AI. He is also active in UKM Policy and KOMIT PNL.",
+      "Currently a student at Politeknik Negeri Lhokseumawe (GPA 3.66), OSN city-level champion in 2024, and active in campus organizations UKM Policy and KOMIT PNL. He also holds cybersecurity and AI certifications from CyberWarFare Labs, Mercor, freeCodeCamp, and Dicoding."
     ],
     id: [
-      "Dia kuliah Teknik Informatika di PNL dengan IPK 3.66, meraih Juara 1 OSN Informatika tingkat Kota Langsa (2024), punya sertifikasi Dicoding Belajar Dasar AI, dan aktif di UKM Policy serta KOMIT PNL.",
-      "Saat ini mahasiswa di Politeknik Negeri Lhokseumawe dengan IPK 3.66, juara OSN tingkat kota tahun 2024, dan aktif di UKM Policy serta KOMIT PNL."
+      "Dia kuliah Teknik Informatika di PNL dengan IPK 3.66 dan meraih Juara 1 OSN Informatika tingkat Kota Langsa (2024). Sertifikasinya mencakup Certified Blue Team Fundamentals (BTF) dan Certified Cyber Security Analyst (C3SA) dari CyberWarFare Labs, Mastering Model Mechanics dan Introduction to Agents dari Mercor, Scientific Computing with Python dari freeCodeCamp, serta Learn Basic AI dari Dicoding Indonesia. Ia juga aktif di UKM Policy dan KOMIT PNL.",
+      "Saat ini mahasiswa Politeknik Negeri Lhokseumawe dengan IPK 3.66, juara OSN tingkat kota tahun 2024, dan aktif di UKM Policy serta KOMIT PNL. Dia juga punya sertifikasi keamanan siber dan AI dari CyberWarFare Labs, Mercor, freeCodeCamp, dan Dicoding."
     ],
     ms: [
-      "Dia belajar Kejuruteraan Sistem Maklumat di PNL dengan IPK 3.66, juara 1 OSN Informatika peringkat bandar Langsa (2024), ada sijil Dicoding Belajar Asas AI, dan aktif dalam UKM Policy serta KOMIT PNL.",
-      "Sekarang pelajar di Politeknik Negeri Lhokseumawe dengan IPK 3.66, juara OSN peringkat bandar pada 2024, dan aktif dalam UKM Policy serta KOMIT PNL."
+      "Dia belajar Kejuruteraan Sistem Maklumat di PNL dengan IPK 3.66 dan juara 1 OSN Informatika peringkat bandar Langsa (2024). Sijilnya termasuk Certified Blue Team Fundamentals (BTF) dan Certified Cyber Security Analyst (C3SA) dari CyberWarFare Labs, Mastering Model Mechanics dan Introduction to Agents dari Mercor, Scientific Computing with Python dari freeCodeCamp, serta Learn Basic AI dari Dicoding Indonesia. Dia juga aktif dalam UKM Policy dan KOMIT PNL.",
+      "Sekarang pelajar di Politeknik Negeri Lhokseumawe dengan IPK 3.66, juara OSN peringkat bandar pada 2024, dan aktif dalam UKM Policy serta KOMIT PNL. Dia juga mempunyai sijil keselamatan siber dan AI dari CyberWarFare Labs, Mercor, freeCodeCamp, dan Dicoding."
     ]
   },
   {
@@ -345,11 +345,12 @@ function getFallbackReply(input: string, history: HistoryEntry[] = []) {
       ]
     },
     {
-      keywords: ["sertifikat", "sertifikasi", "dicoding", "belajar dasar ai", "artificial intelligence"],
+      keywords: ["sertifikat", "sertifikasi", "dicoding", "belajar dasar ai", "artificial intelligence", "btf", "c3sa", "mercor", "freecodecamp", "cyberwarfare", "cyber security", "blue team", "model mechanics", "python", "agents"],
       responses: [
-        "Alhadi memiliki sertifikasi Dicoding Akademi untuk kelas Belajar Dasar AI. Ia juga pernah meraih Juara 1 OSN Informatika tingkat Kota Langsa pada 2024.",
-        "Untuk sertifikasi, Alhadi menyelesaikan kelas Belajar Dasar AI dari Dicoding Akademi. Minatnya pada informatika juga terlihat dari prestasi juara 1 OSN Informatika tingkat kota.",
-        "Ada sertifikasi Belajar Dasar AI dari Dicoding Akademi. Ditambah pengalaman OSN Informatika, bekal belajarnya punya sisi teori dan kompetisi juga."
+        "Sertifikasi Alhadi cukup beragam: Certified Blue Team Fundamentals (BTF) dan Certified Cyber Security Analyst (C3SA) dari CyberWarFare Labs (Nov 2026), Mastering Model Mechanics dan Introduction to Agents dari Mercor (Okt 2026), Scientific Computing with Python dari freeCodeCamp (Jun 2026), serta Learn Basic AI dari Dicoding Indonesia (Feb 2026, berlaku sampai Feb 2029).",
+        "Di bidang keamanan siber, Alhadi punya BTF dan C3SA dari CyberWarFare Labs. Di bidang AI, ada Mastering Model Mechanics serta Introduction to Agents dari Mercor, ditambah Learn Basic AI dari Dicoding. Untuk Python, ia menyelesaikan Scientific Computing with Python dari freeCodeCamp.",
+        "Alhadi memegang beberapa sertifikat: BTF dan C3SA (CyberWarFare Labs), Mastering Model Mechanics dan Introduction to Agents (Mercor), Scientific Computing with Python (freeCodeCamp), dan Learn Basic AI (Dicoding). Semuanya bisa dilihat di bagian Certifications & Awards pada portfolio.",
+        "Total ada 6 sertifikasi plus prestasi OSN: BTF, C3SA, Mastering Model Mechanics, Introduction to Agents, Scientific Computing with Python, dan Learn Basic AI. Detail seperti ID kredensial dan keahliannya ada di section Certifications & Awards."
       ]
     },
     {
@@ -566,7 +567,7 @@ Multilingual Behavior & Conversation Style:
 - You have access to persistent session history: remember details the user shares with you during chat sessions.
 - When a question is ambiguous about who "you" means, assume it refers to Alhadi (this is his portfolio assistant) and answer about Alhadi. If a question asks about the assistant itself, say briefly that you're an AI assistant, then pivot to what you CAN share about Alhadi.
 - Respond directly to what the user says, including casual chat or general questions; do not forcefully redirect every prompt back to the portfolio.
-- Be warm and specific, never generic filler. Avoid canned openers like "As an AI" or "That's a great question". Reference actual details (projects, stack, GPA, OSN, Langsa) when relevant.
+- Be warm and specific, never generic filler. Avoid canned openers like "As an AI" or "That's a great question". Reference actual details (projects, stack, GPA, OSN, certifications, Langsa) when relevant.
 - Never mention which company, provider, or model powers you. You are simply "Hadi Assistant".
 - Only share the WhatsApp number (085167811568) when the user explicitly asks for a WhatsApp/phone number. Never volunteer it as a suggestion for other topics.
 - Vary your phrasing and sentence openings between replies; never reuse the same template, opener, or closing from your previous messages. Repetition is a failure.
@@ -576,7 +577,14 @@ Portfolio facts about Alhadi:
 - Alhadi Azumi is an Informatics Engineering student at Politeknik Negeri Lhokseumawe (PNL), originally from Langsa, with a GPA of 3.66. Previous school: SMA 3 Langsa.
 - Tech stack: React, Next.js, Tailwind CSS, HTML/CSS, Framer Motion, Node.js, Express.js, Go/Fiber, Laravel, TypeScript, MySQL, PostgreSQL, MongoDB, Prisma, Git, GitHub, Docker, Linux, Nginx, and Postman.
 - Organizational roles: UKM Policy PNL (Networking Division) and KOMIT PNL (Digihub Division), both 2026.
-- Achievements: 1st place in OSN Informatics at Langsa city level (SMA/MA track, 2024). Dicoding Certification: AI Basics.
+- Achievements: 1st place in OSN Informatics at Langsa city level (SMA/MA track, 2024).
+- Certifications:
+  - Certified Blue Team Fundamentals (BTF) — CyberWarFare Labs, Nov 2026. Credential ID: 6af470cc5415119b914540995. Skills: Security Operations, Cyber Threat Hunting (CTH).
+  - Certified Cyber Security Analyst (C3SA) — CyberWarFare Labs, Nov 2026. Credential ID: C3SA-6af47553415119b91453ff0f. Skills: Threat Detection, Network Security.
+  - Mastering Model Mechanics — Mercor, Oct 2026. Credential ID: MRC-2026-8G4GBMF3. Skills: Prompt Engineering, Large Language Models (LLM).
+  - Introduction to Agents — Mercor, Oct 2026. Credential ID: MRC-2026-6TS44Z4D. Skills: AI Agents, Artificial Intelligence.
+  - Scientific Computing with Python — freeCodeCamp, Jun 2026. Credential ID: alhadiazumi-pyv9. Skills: Python, Computer Science.
+  - Learn Basic AI — Dicoding Indonesia, Feb 2026 (valid until Feb 2029). Credential ID: JMZVOGRJ3XN9. Skills: Machine Learning, Artificial Intelligence.
 - Projects: Cyber Tasker (task management app) and Pseudonym (anonymous secret messaging app with Google login, built with PHP & PostgreSQL(Supabase)).
 - Personal tidbits: Favorite food is mi ayam. Classmate & close friends: Rahmat, Karim, Reza, and Fadhlul.
 - Contacts: Professional email is alhadiazumifw@gmail.com, Instagram is @alhdzm. WhatsApp (085167811568) only provided when explicitly asked.

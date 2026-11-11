@@ -28,14 +28,6 @@ const experiences: ExperienceItem[] = [
     date: "Apr 2026 - Now",
     description: "As a member of the Networking Division at UKM Policy PNL, I focus on learning, implementing, and maintaining network infrastructure, Linux operating systems, and open-source technologies. My responsibilities include technical support, network configuration, and contributing to community projects that enhance digital skills and knowledge in the academic environment.",
     skills: ["Networking", "Linux", "Open Source"],
-  },
-  {
-    id: 3,
-    company: "OSN Informatika tingkat kota langsa",
-    role: "1st Place Winner",
-    date: "Apr 2024",
-    description: "Achieved 1st place in the National Science Olympiad (OSN) for Informatics at the city level in Langsa, showcasing strong problem-solving skills, algorithmic thinking, and proficiency in computer science fundamentals.",
-    skills: ["Informatics", "Problem Solving", "Algorithm", "Logic"],
   }
 ]
 

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     siteName: "Alhadi Azumi Portfolio",
     images: [
       {
-        url: "/images/hero.jpg",
+        url: "/images/pdh.JPG",
         width: 1200,
         height: 630,
         alt: "Alhadi Azumi Portfolio",
@@ -39,13 +39,13 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Alhadi Azumi | Portfolio",
     description: "Personal portfolio of Alhadi Azumi. Software Developer specializing in Next.js, Node.js, and modern web development.",
-    images: ["/images/hero.jpg"],
+    images: ["/images/pdh.JPG"],
     creator: "@AlhadiAzumi",
   },
   icons: {
-    icon: "/images/hero.jpg",
-    shortcut: "/images/hero.jpg",
-    apple: "/images/hero.jpg",
+    icon: "/images/pdh.JPG",
+    shortcut: "/images/pdh.JPG",
+    apple: "/images/pdh.JPG",
   },
   alternates: {
     canonical: "/",
