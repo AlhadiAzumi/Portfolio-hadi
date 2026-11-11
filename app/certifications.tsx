@@ -80,7 +80,7 @@ const certifications: CertificationItem[] = [
     id: 6,
     title: "Learn Basic AI",
     issuer: "Dicoding Indonesia",
-    date: "Feb 2026 · Valid until Feb 2029",
+    date: "Feb 2026",
     type: "Certification",
     credentialId: "JMZVOGRJ3XN9",
     description: "Sertifikasi dasar-dasar Artificial Intelligence dari Dicoding Indonesia.",

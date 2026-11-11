@@ -55,7 +55,9 @@ const techCategories = [
     technologies: [
       { name: "React.js", svg: "./icons/react.svg" },
       { name: "Next.js", svg: "./icons/nextjs.svg" },
+      { name: "TypeScript", svg: "./icons/typescript.svg" },
       { name: "Tailwind CSS", svg: "./icons/tailwindcss.svg" },
+      { name: "Framer Motion", svg: "./icons/framermotion.svg" },
       { name: "HTML5", svg: "./icons/html.svg" },
       { name: "CSS3", svg: "./icons/css.svg" },
     ],
@@ -65,6 +67,8 @@ const techCategories = [
     description: "Server-side technologies and frameworks.",
     technologies: [
       { name: "Node.js", svg: "./icons/nodejs.svg" },
+      { name: "Express", svg: "./icons/express.svg" },
+      { name: "Go", svg: "./icons/go.svg" },
       { name: "Fiber", svg: "./icons/fiber.svg" },
       { name: "Laravel", svg: "./icons/laravel.svg" },
     ],
@@ -75,6 +79,8 @@ const techCategories = [
     technologies: [
       { name: "MySQL", svg: "./icons/mysql.svg" },
       { name: "PostgreSQL", svg: "./icons/postgresql.svg" },
+      { name: "MongoDB", svg: "./icons/mongodb.svg" },
+      { name: "Prisma", svg: "./icons/prisma.svg" },
     ],
   },
   {
@@ -86,6 +92,7 @@ const techCategories = [
       { name: "Docker", svg: "./icons/docker.svg" },
       { name: "Linux", svg: "./icons/linux.svg" },
       { name: "Nginx", svg: "./icons/nginx.svg" },
+      { name: "Postman", svg: "./icons/postman.svg" },
     ],
   },
 ]

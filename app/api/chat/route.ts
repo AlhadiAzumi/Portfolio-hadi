@@ -347,7 +347,7 @@ function getFallbackReply(input: string, history: HistoryEntry[] = []) {
     {
       keywords: ["sertifikat", "sertifikasi", "dicoding", "belajar dasar ai", "artificial intelligence", "btf", "c3sa", "mercor", "freecodecamp", "cyberwarfare", "cyber security", "blue team", "model mechanics", "python", "agents"],
       responses: [
-        "Sertifikasi Alhadi cukup beragam: Certified Blue Team Fundamentals (BTF) dan Certified Cyber Security Analyst (C3SA) dari CyberWarFare Labs (Nov 2026), Mastering Model Mechanics dan Introduction to Agents dari Mercor (Okt 2026), Scientific Computing with Python dari freeCodeCamp (Jun 2026), serta Learn Basic AI dari Dicoding Indonesia (Feb 2026, berlaku sampai Feb 2029).",
+        "Sertifikasi Alhadi cukup beragam: Certified Blue Team Fundamentals (BTF) dan Certified Cyber Security Analyst (C3SA) dari CyberWarFare Labs (Nov 2026), Mastering Model Mechanics dan Introduction to Agents dari Mercor (Okt 2026), Scientific Computing with Python dari freeCodeCamp (Jun 2026), serta Learn Basic AI dari Dicoding Indonesia (Feb 2026). Semua tanggal itu adalah tanggal diterbitkan dan sertifikatnya berlaku permanen (tidak ada masa kedaluwarsa).",
         "Di bidang keamanan siber, Alhadi punya BTF dan C3SA dari CyberWarFare Labs. Di bidang AI, ada Mastering Model Mechanics serta Introduction to Agents dari Mercor, ditambah Learn Basic AI dari Dicoding. Untuk Python, ia menyelesaikan Scientific Computing with Python dari freeCodeCamp.",
         "Alhadi memegang beberapa sertifikat: BTF dan C3SA (CyberWarFare Labs), Mastering Model Mechanics dan Introduction to Agents (Mercor), Scientific Computing with Python (freeCodeCamp), dan Learn Basic AI (Dicoding). Semuanya bisa dilihat di bagian Certifications & Awards pada portfolio.",
         "Total ada 6 sertifikasi plus prestasi OSN: BTF, C3SA, Mastering Model Mechanics, Introduction to Agents, Scientific Computing with Python, dan Learn Basic AI. Detail seperti ID kredensial dan keahliannya ada di section Certifications & Awards."
@@ -584,7 +584,8 @@ Portfolio facts about Alhadi:
   - Mastering Model Mechanics — Mercor, Oct 2026. Credential ID: MRC-2026-8G4GBMF3. Skills: Prompt Engineering, Large Language Models (LLM).
   - Introduction to Agents — Mercor, Oct 2026. Credential ID: MRC-2026-6TS44Z4D. Skills: AI Agents, Artificial Intelligence.
   - Scientific Computing with Python — freeCodeCamp, Jun 2026. Credential ID: alhadiazumi-pyv9. Skills: Python, Computer Science.
-  - Learn Basic AI — Dicoding Indonesia, Feb 2026 (valid until Feb 2029). Credential ID: JMZVOGRJ3XN9. Skills: Machine Learning, Artificial Intelligence.
+  - Learn Basic AI — Dicoding Indonesia, Feb 2026. Credential ID: JMZVOGRJ3XN9. Skills: Machine Learning, Artificial Intelligence.
+- IMPORTANT: All certification dates above are ISSUE dates, not expiry dates. These certificates never expire and are permanent. Never say "valid until", "berlaku sampai", or invent any expiry/validity date.
 - Projects: Cyber Tasker (task management app) and Pseudonym (anonymous secret messaging app with Google login, built with PHP & PostgreSQL(Supabase)).
 - Personal tidbits: Favorite food is mi ayam. Classmate & close friends: Rahmat, Karim, Reza, and Fadhlul.
 - Contacts: Professional email is alhadiazumifw@gmail.com, Instagram is @alhdzm. WhatsApp (085167811568) only provided when explicitly asked.
