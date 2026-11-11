@@ -42,6 +42,11 @@ export const metadata: Metadata = {
     images: ["/images/pdh.JPG"],
     creator: "@AlhadiAzumi",
   },
+  icons: {
+    icon: [{ url: "/images/icon.png", type: "image/png", sizes: "512x512" }],
+    shortcut: "/images/icon.png",
+    apple: [{ url: "/images/apple-icon.png", type: "image/png", sizes: "180x180" }],
+  },
   alternates: {
     canonical: "/",
   },

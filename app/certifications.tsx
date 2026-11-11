@@ -217,18 +217,32 @@ export default function Certifications() {
         ))}
       </div>
 
-      {hasMore && (
-        <div className="max-w-7xl mx-auto px-6 md:px-12 mt-10 flex justify-center">
-          <button
-            type="button"
-            onClick={() => setExtraPages((prev) => prev + 1)}
-            className="group inline-flex items-center gap-3 px-8 py-4 bg-background border border-text-secondary/20 text-text-primary hover:border-text-primary hover:bg-text-primary hover:text-background rounded-xl font-bold tracking-widest text-sm uppercase transition-all duration-300 ease-out hover:-translate-y-1.5 hover:scale-[1.02] shadow-sm hover:shadow-xl"
-          >
-            <span>See More</span>
-            <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
+      {(hasMore || extraPages > 0) && (
+        <div className="max-w-7xl mx-auto px-6 md:px-12 mt-10 flex flex-wrap justify-center gap-4">
+          {hasMore && (
+            <button
+              type="button"
+              onClick={() => setExtraPages((prev) => prev + 1)}
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-background border border-text-secondary/20 text-text-primary hover:border-text-primary hover:bg-text-primary hover:text-background rounded-xl font-bold tracking-widest text-sm uppercase transition-all duration-300 ease-out hover:-translate-y-1.5 hover:scale-[1.02] shadow-sm hover:shadow-xl"
+            >
+              <span>See More</span>
+              <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          )}
+          {extraPages > 0 && (
+            <button
+              type="button"
+              onClick={() => setExtraPages(0)}
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-background border border-text-secondary/20 text-text-primary hover:border-text-primary hover:bg-text-primary hover:text-background rounded-xl font-bold tracking-widest text-sm uppercase transition-all duration-300 ease-out hover:-translate-y-1.5 hover:scale-[1.02] shadow-sm hover:shadow-xl"
+            >
+              <span>See Less</span>
+              <svg className="w-5 h-5 rotate-180 transition-transform duration-300 group-hover:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          )}
         </div>
       )}
 
