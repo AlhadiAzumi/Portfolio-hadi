@@ -157,18 +157,6 @@ export default function Project() {
             </div>
         </div>
 
-
-        <FadeUp>
-          <div className="mt-16 flex justify-center w-full px-6">
-            <a href="https://github.com/AlhadiAzumi" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-8 py-4 bg-background border border-text-secondary/20 text-text-primary hover:border-text-primary hover:bg-text-primary hover:text-background rounded-xl font-bold tracking-widest text-sm uppercase transition-all duration-300 ease-out group hover:-translate-y-1.5 hover:scale-[1.02] shadow-sm hover:shadow-xl">
-              <span>View GitHub Profile</span>
-              <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-            </a>
-          </div>
-        </FadeUp>
-
         <AnimatePresence>
           {isOpen !== null && activeProject && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
@@ -257,30 +245,24 @@ export default function Project() {
 const projectList = [
   {
     index: 0,
-    imagePath: "/images/cybertasker.jpg",
-    title: "Cyber Tasker",
-    shortDescription: "A task management application helping users organize work and activities in a structured manner.",
-    createdAt: "2026-06-28",
-    features: ["Automated Deadline Notification", "Data Export (CSV/PDF)", "Offline-first LocalStorage API"],
-    tech: ["Vanilla JavaScript", "HTML5", "CSS3", "LocalStorage API"],
-    githubUrl: "https://github.com/AlhadiAzumi",
-    liveDemoUrl: "https://cybertasker.netlify.app/",
+    imagePath: "/images/lostandfound.png",
+    title: "Campus Lost and Found Portal",
+    shortDescription: "A multi-campus lost and found management platform designed to let any university or institution deploy their own dedicated item reporting and recovery portal.",
+    createdAt: "2026-10-30",
+    features: [
+      "Multi-Campus & Modular Institution Setup",
+      "Interactive Lost & Found Item Catalog",
+      "Online Lost/Found Item Reporting Form",
+      "Item Recovery Status Tracking (Active, Returned, Verified)",
+      "Campus Security Officer Verification Workflow"
+    ],
+    tech: ["PHP", "Laravel", "PostgreSQL", "Supabase", "TailwindCSS", "JavaScript"],
+    githubUrl: "https://github.com/AlhadiAzumi/Lost-Found",
+    liveDemoUrl: "https://campuslostandfound.web.id",
     isPrivateRepo: false,
   },
   {
     index: 1,
-    imagePath: "/images/pseudonym.png",
-    title: "Pseudonym",
-    shortDescription: "A secret messaging app inspired by Secreto/NGL: anyone can send anonymous messages without an account, while account owners log in with Google to receive and reply to messages.",
-    createdAt: "2026-10-01",
-    features: ["Send messages without signing up", "Google Login to receive messages", "Publicly visible messages & replies", "Only account owners can reply"],
-    tech: ["PHP", "PostgreSQL", "Supabase", "PDO", "Google OAuth", "JavaScript", "TailwindCSS"],
-    githubUrl: "https://github.com/AlhadiAzumi/pseudonym",
-    liveDemoUrl: "https://pseudonym.site",
-    isPrivateRepo: false,
-  },
-{
-    index: 2,
     imagePath: "/images/datalearners.png",
     title: "DataLearners.xxv",
     shortDescription: "Official class portal web for TI 2B Politeknik Negeri Lhokseumawe, featuring student directory, academic assignments catalog, and class gallery.",
@@ -297,21 +279,27 @@ const projectList = [
     isPrivateRepo: false,
   },
   {
+    index: 2,
+    imagePath: "/images/pseudonym.png",
+    title: "Pseudonym",
+    shortDescription: "A secret messaging app inspired by Secreto/NGL: anyone can send anonymous messages without an account, while account owners log in with Google to receive and reply to messages.",
+    createdAt: "2026-10-01",
+    features: ["Send messages without signing up", "Google Login to receive messages", "Publicly visible messages & replies", "Only account owners can reply"],
+    tech: ["PHP", "PostgreSQL", "Supabase", "PDO", "Google OAuth", "JavaScript", "TailwindCSS"],
+    githubUrl: "https://github.com/AlhadiAzumi/pseudonym",
+    liveDemoUrl: "https://pseudonym.site",
+    isPrivateRepo: false,
+  },
+  {
     index: 3,
-    imagePath: "/images/lostandfound.png",
-    title: "Campus Lost and Found Portal",
-    shortDescription: "A multi-campus lost and found management platform designed to let any university or institution deploy their own dedicated item reporting and recovery portal.",
-    createdAt: "2026-10-30",
-    features: [
-      "Multi-Campus & Modular Institution Setup",
-      "Interactive Lost & Found Item Catalog",
-      "Online Lost/Found Item Reporting Form",
-      "Item Recovery Status Tracking (Active, Returned, Verified)",
-      "Campus Security Officer Verification Workflow"
-    ],
-    tech: ["PHP", "Laravel", "PostgreSQL", "Supabase", "TailwindCSS", "JavaScript"],
-    githubUrl: "https://github.com/AlhadiAzumi/Lost-Found",
-    liveDemoUrl: "https://campuslostandfound.web.id",
+    imagePath: "/images/cybertasker.jpg",
+    title: "Cyber Tasker",
+    shortDescription: "A task management application helping users organize work and activities in a structured manner.",
+    createdAt: "2026-06-28",
+    features: ["Automated Deadline Notification", "Data Export (CSV/PDF)", "Offline-first LocalStorage API"],
+    tech: ["Vanilla JavaScript", "HTML5", "CSS3", "LocalStorage API"],
+    githubUrl: "https://github.com/AlhadiAzumi",
+    liveDemoUrl: "https://cybertasker.netlify.app/",
     isPrivateRepo: false,
   },
 ]

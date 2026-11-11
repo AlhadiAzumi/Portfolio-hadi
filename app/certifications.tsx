@@ -117,7 +117,16 @@ function CertificateIcon({ type }: { type: CertificationItem["type"] }) {
 
 export default function Certifications() {
   const [active, setActive] = useState<CertificationItem | null>(null)
-  const [showAll, setShowAll] = useState(false)
+  const [extraPages, setExtraPages] = useState(0)
+  const [isDesktop, setIsDesktop] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)")
+    const update = () => setIsDesktop(mq.matches)
+    update()
+    mq.addEventListener("change", update)
+    return () => mq.removeEventListener("change", update)
+  }, [])
 
   useEffect(() => {
     document.body.style.overflow = active ? "hidden" : "unset"
@@ -125,6 +134,12 @@ export default function Certifications() {
       document.body.style.overflow = "unset"
     }
   }, [active])
+
+  const baseCount = isDesktop ? 3 : 2
+  const step = isDesktop ? 3 : 2
+  const visibleCount = baseCount + extraPages * step
+  const visibleCertifications = certifications.slice(0, visibleCount)
+  const hasMore = visibleCount < certifications.length
 
   return (
     <section id="certifications" className="w-full max-w-7xl mx-auto py-24 md:py-32 cursor-default bg-background relative border-t border-text-secondary/10">
@@ -136,11 +151,8 @@ export default function Certifications() {
       </FadeDown>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {certifications.map((cert, index) => {
-          const visibility = showAll ? "" : index < 2 ? "" : index === 2 ? "hidden lg:block" : "hidden"
-
-          return (
-            <FadeUp key={cert.id} delay={index * 0.1} className={`h-full ${visibility}`}>
+        {visibleCertifications.map((cert, index) => (
+          <FadeUp key={cert.id} delay={index * 0.1} className="h-full">
               <div className="group flex flex-col h-full bg-thirdary/20 hover:bg-thirdary/50 border border-text-secondary/10 hover:border-text-primary/50 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
               {cert.image ? (
                 <button
@@ -201,20 +213,19 @@ export default function Certifications() {
                 )}
               </div>
             </div>
-            </FadeUp>
-          )
-        })}
+          </FadeUp>
+        ))}
       </div>
 
-      {certifications.length > 3 && (
+      {hasMore && (
         <div className="max-w-7xl mx-auto px-6 md:px-12 mt-10 flex justify-center">
           <button
             type="button"
-            onClick={() => setShowAll((prev) => !prev)}
+            onClick={() => setExtraPages((prev) => prev + 1)}
             className="group inline-flex items-center gap-3 px-8 py-4 bg-background border border-text-secondary/20 text-text-primary hover:border-text-primary hover:bg-text-primary hover:text-background rounded-xl font-bold tracking-widest text-sm uppercase transition-all duration-300 ease-out hover:-translate-y-1.5 hover:scale-[1.02] shadow-sm hover:shadow-xl"
           >
-            <span>{showAll ? "See Less" : "See More"}</span>
-            <svg className={`w-5 h-5 transition-transform duration-300 ${showAll ? "rotate-180" : "group-hover:translate-y-0.5"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span>See More</span>
+            <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
