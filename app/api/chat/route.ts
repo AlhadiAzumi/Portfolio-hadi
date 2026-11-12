@@ -70,16 +70,16 @@ const localizedGroups: { keywords: string[]; en: string[]; id: string[]; ms: str
   {
     keywords: ["project", "projects", "proyek", "projek", "portfolio", "porto", "kerja", "built", "build", "aplikasi"],
     en: [
-      "Alhadi's portfolio features two main projects: Cyber Tasker (task management) and Pseudonym (anonymous secret messaging app with Google login).",
-      "There are two featured projects — Cyber Tasker for managing tasks, and Pseudonym for receiving anonymous messages."
+      "Alhadi's portfolio features four projects: Campus Lost and Found Portal (multi-campus lost & found platform), DataLearners.xxv (class portal for TI 2B PNL), Pseudonym (anonymous secret messaging app with Google login), and Cyber Tasker (task management).",
+      "There are four projects — Campus Lost and Found Portal, DataLearners.xxv, Pseudonym for anonymous messages, and Cyber Tasker for managing tasks."
     ],
     id: [
-      "Di portofolio Alhadi ada dua proyek utama: Cyber Tasker (manajemen tugas) dan Pseudonym (aplikasi pesan anonim dengan login Google).",
-      "Ada dua proyek unggulan — Cyber Tasker untuk mengatur tugas dan Pseudonym untuk menerima pesan anonim."
+      "Di portofolio Alhadi ada empat proyek: Campus Lost and Found Portal (platform lost & found multi-kampus), DataLearners.xxv (portal kelas TI 2B PNL), Pseudonym (aplikasi pesan anonim dengan login Google), dan Cyber Tasker (manajemen tugas).",
+      "Ada empat proyek — Campus Lost and Found Portal, DataLearners.xxv, Pseudonym untuk pesan anonim, dan Cyber Tasker untuk mengatur tugas."
     ],
     ms: [
-      "Portofolio Alhadi ada dua projek utama: Cyber Tasker (pengurusan tugas) dan Pseudonym (aplikasi mesej anonim dengan log masuk Google).",
-      "Ada dua projek utama — Cyber Tasker untuk mengurus tugas dan Pseudonym untuk menerima mesej anonim."
+      "Portofolio Alhadi ada empat projek: Campus Lost and Found Portal (platform lost & found berbilang kampus), DataLearners.xxv (portal kelas TI 2B PNL), Pseudonym (aplikasi mesej anonim dengan log masuk Google), dan Cyber Tasker (pengurusan tugas).",
+      "Ada empat projek — Campus Lost and Found Portal, DataLearners.xxv, Pseudonym untuk mesej anonim, dan Cyber Tasker untuk mengurus tugas."
     ]
   },
   {
@@ -250,19 +250,19 @@ function getFallbackReply(input: string, history: HistoryEntry[] = []) {
       responses: [
         "Betul, Alhadi masih mahasiswa dan terus membangun pengalamannya lewat proyek serta kegiatan organisasi. Saya nggak akan menyebutnya senior; yang jelas ia aktif belajar dan membuat karya nyata.",
         "Pertanyaan yang wajar! Alhadi masih dalam tahap berkembang sebagai software engineer. Portfolio ini menunjukkan proyek yang pernah dibuat, bukan klaim pengalaman kerja bertahun-tahun.",
-        "Kalau yang dimaksud pengalaman kerja formal, informasinya tidak dirinci di sini. Yang bisa saya pastikan: Alhadi kuliah Teknik Informatika, aktif berorganisasi, dan punya proyek Cyber Tasker serta Pseudonym.",
+        "Kalau yang dimaksud pengalaman kerja formal, informasinya tidak dirinci di sini. Yang bisa saya pastikan: Alhadi kuliah Teknik Informatika, aktif berorganisasi, dan punya proyek Campus Lost and Found Portal, DataLearners.xxv, Pseudonym, serta Cyber Tasker.",
         "Iya, Alhadi masih mahasiswa. Justru proyek-proyeknya jadi ruang untuk menerapkan kemampuan sambil terus belajar. Untuk pengalaman profesional yang lebih spesifik, paling akurat tanyakan langsung ke Alhadi.",
-        "Saya paham kekhawatirannya. Status mahasiswa bukan pengganti pengalaman, tapi Alhadi punya karya yang bisa dilihat dan dibahas langsung. Silakan cek Cyber Tasker dan Pseudonym di portfolio."
+        "Saya paham kekhawatirannya. Status mahasiswa bukan pengganti pengalaman, tapi Alhadi punya karya yang bisa dilihat dan dibahas langsung. Silakan cek Campus Lost and Found Portal, DataLearners.xxv, Pseudonym, dan Cyber Tasker di portfolio."
       ]
     },
     {
-      keywords: ["cuma dua proyek", "hanya dua proyek", "sedikit proyek", "proyeknya sedikit", "kenapa cuma", "portfolio sedikit", "portofolio sedikit"],
+      keywords: ["cuma dua proyek", "hanya dua proyek", "sedikit proyek", "proyeknya sedikit", "kenapa cuma", "portfolio sedikit", "portofolio sedikit", "cuma empat proyek", "hanya empat proyek"],
       responses: [
-        "Iya, saat ini yang ditampilkan memang dua proyek: Cyber Tasker dan Pseudonym. Lebih baik menampilkan karya yang benar-benar ada daripada menambah proyek yang bukan milik Alhadi.",
-        "Betul, portfolio ini fokus pada dua proyek yang ingin Alhadi tampilkan sekarang. Jumlahnya bisa bertambah seiring karya baru selesai, tapi saya nggak mau mengarang daftar proyek.",
-        "Untuk saat ini ada dua, dan masing-masing punya tujuan berbeda: manajemen tugas di Cyber Tasker dan pesan anonim di Pseudonym. Sedikit tapi jelas, kan? 😄",
-        "Kritik yang masuk akal. Portfolio memang masih bisa berkembang; saat ini baru Cyber Tasker dan Pseudonym yang dikonfirmasi sebagai proyek Alhadi.",
-        "Iya, baru dua proyek yang tercantum. Kalau ingin menilai lebih jauh, kita bisa bahas fitur dan implementasi masing-masing, bukan sekadar menghitung jumlahnya."
+        "Saat ini ada empat proyek: Campus Lost and Found Portal, DataLearners.xxv, Pseudonym, dan Cyber Tasker. Lebih baik menampilkan karya yang benar-benar ada daripada menambah proyek yang bukan milik Alhadi.",
+        "Betul, portfolio ini fokus pada proyek yang ingin Alhadi tampilkan sekarang. Jumlahnya bisa bertambah seiring karya baru selesai, tapi saya nggak mau mengarang daftar proyek.",
+        "Untuk saat ini ada empat, masing-masing dengan tujuan berbeda: lost & found multi-kampus, portal kelas, pesan anonim, dan manajemen tugas. Sedikit tapi jelas, kan? 😄",
+        "Kritik yang masuk akal. Portfolio memang masih bisa berkembang; saat ini yang terkonfirmasi ada Campus Lost and Found Portal, DataLearners.xxv, Pseudonym, dan Cyber Tasker.",
+        "Iya, baru empat proyek yang tercantum. Kalau ingin menilai lebih jauh, kita bisa bahas fitur dan implementasi masing-masing, bukan sekadar menghitung jumlahnya."
       ]
     },
     {
@@ -298,11 +298,11 @@ function getFallbackReply(input: string, history: HistoryEntry[] = []) {
     {
       keywords: ["osn masih relevan", "osn bukan pengalaman", "juara osn doang", "olimpiade doang", "apa hubungannya osn", "prestasi lama"],
       responses: [
-        "Benar, juara OSN bukan pengganti pengalaman membangun software. Prestasi itu menunjukkan pencapaian Informatika saat SMA, sedangkan kemampuan proyek bisa dinilai dari Cyber Tasker dan Pseudonym.",
-        "OSN Informatika adalah pencapaian akademik Alhadi pada 2024, bukan klaim pengalaman kerja. Untuk melihat karya aplikasinya, cek dua proyek yang ada di portfolio.",
+        "Benar, juara OSN bukan pengganti pengalaman membangun software. Prestasi itu menunjukkan pencapaian Informatika saat SMA, sedangkan kemampuan proyek bisa dinilai dari Campus Lost and Found Portal, DataLearners.xxv, Pseudonym, dan Cyber Tasker.",
+        "OSN Informatika adalah pencapaian akademik Alhadi pada 2024, bukan klaim pengalaman kerja. Untuk melihat karya aplikasinya, cek empat proyek yang ada di portfolio.",
         "Setuju, lomba dan pengembangan produk itu hal berbeda. Juara 1 OSN tingkat Kota Langsa dicantumkan sebagai prestasi, sementara proyek-proyeknya menunjukkan sisi praktik.",
         "Prestasi OSN memberi konteks tentang minat dan kemampuan Informatika Alhadi sejak SMA, tapi bukan satu-satunya ukuran. Portfolio proyek tetap penting untuk dinilai.",
-        "Pertanyaan yang fair. OSN adalah pencapaian kompetisi, bukan sertifikat otomatis untuk semua skill software engineering. Bukti proyeknya ada di Cyber Tasker dan Pseudonym."
+        "Pertanyaan yang fair. OSN adalah pencapaian kompetisi, bukan sertifikat otomatis untuk semua skill software engineering. Bukti proyeknya ada di Campus Lost and Found Portal, DataLearners.xxv, Pseudonym, dan Cyber Tasker."
       ]
     },
     {
@@ -378,19 +378,36 @@ function getFallbackReply(input: string, history: HistoryEntry[] = []) {
       ]
     },
     {
+      keywords: ["campus lost", "lost and found", "lost & found", "lost found", "barang hilang", "hilang dan temuan", "campuslostandfound", "portal kampus"],
+      responses: [
+        "Campus Lost and Found Portal adalah platform manajemen barang hilang dan temuan multi-kampus. Institusi atau universitas bisa punya portal sendiri untuk pelaporan dan pemulihan barang. Dibuat dengan PHP, Laravel, PostgreSQL, Supabase, TailwindCSS, dan JavaScript.",
+        "Proyek ini memungkinkan kampus mengelola laporan barang hilang lewat katalog interaktif, form pelaporan online, pelacakan status (Active, Returned, Verified), dan alur verifikasi oleh petugas keamanan kampus. Live di https://campuslostandfound.web.id",
+        "Campus Lost and Found Portal mendukung setup multi-kampus yang modular, jadi tiap institusi bisa deploy portalnya sendiri. Kode sumbernya ada di github.com/AlhadiAzumi/Lost-Found.",
+        "Fitur utamanya: katalog barang hilang & temuan interaktif, form laporan online, pelacakan status pemulihan, dan verifikasi oleh campus security officer. Stack-nya Laravel + PostgreSQL (Supabase)."
+      ]
+    },
+    {
+      keywords: ["datalearners", "data learners", "website kelas", "portal kelas", "ti 2b", "kelas ti", "class portal"],
+      responses: [
+        "DataLearners.xxv adalah portal web resmi kelas TI 2B Politeknik Negeri Lhokseumawe. Isinya direktori siswa, katalog tugas dan proyek akademik, serta galeri kegiatan kelas. Dibuat dengan React, JavaScript, TailwindCSS, HTML5, dan CSS3.",
+        "DataLearners.xxv jadi pusat informasi kelas TI 2B PNL: profil siswa, katalog tugas, dan dokumentasi kegiatan. Live di https://datalearnersxxv.my.id",
+        "Proyek ini menampilkan direktori siswa interaktif, katalog tugas & proyek kelas, galeri kegiatan, plus pengalaman UI modern dengan smooth physics scroll. Kode sumbernya di github.com/AlhadiAzumi/Website-Kelas-TI-2B-PNL."
+      ]
+    },
+    {
       keywords: ["cyber tasker", "task management", "manajemen tugas", "mengatur tugas"],
       responses: [
         "Cyber Tasker adalah aplikasi manajemen tugas untuk membantu pengguna mengatur pekerjaan dan aktivitas dengan lebih terstruktur.",
         "Salah satu proyek Alhadi adalah Cyber Tasker, aplikasi untuk mengelola tugas. Cocok buat yang ingin daftar kerjaan nggak cuma numpuk di kepala 😄",
-        "Cyber Tasker berfokus pada manajemen tugas. Bersama Pseudonym, itu dua proyek yang saat ini ditampilkan di portfolio Alhadi."
+        "Cyber Tasker berfokus pada manajemen tugas dengan notifikasi deadline otomatis, ekspor data (CSV/PDF), dan LocalStorage API offline-first. Live di https://cybertasker.netlify.app/."
       ]
     },
     {
       keywords: ["project", "porto", "portfolio", "proyek", "kerja"],
       responses: [
-        "Di portfolio Alhadi ada dua proyek: Cyber Tasker, aplikasi manajemen tugas, dan Pseudonym, aplikasi pesan rahasia ala Secreto/NGL dengan login Google untuk pemilik akun. Mau bahas yang mana?",
-        "Proyek yang ditampilkan ada Cyber Tasker untuk mengatur tugas dan Pseudonym untuk menerima pesan anonim. Di Pseudonym, pesan dan balasan tampil publik, tetapi hanya pemilik akun yang bisa membalas.",
-        "Ada Cyber Tasker dan Pseudonym. Cyber Tasker membantu mengelola tugas, sementara Pseudonym memungkinkan orang mengirim pesan anonim ke profil; pemilik akun login dengan Google untuk membalas."
+        "Di portfolio Alhadi ada empat proyek: Campus Lost and Found Portal (platform lost & found multi-kampus), DataLearners.xxv (portal kelas TI 2B PNL), Pseudonym (pesan anonim dengan login Google), dan Cyber Tasker (manajemen tugas). Mau bahas yang mana?",
+        "Proyek yang ditampilkan ada Campus Lost and Found Portal, DataLearners.xxv, Pseudonym untuk menerima pesan anonim, dan Cyber Tasker untuk mengatur tugas. Semuanya bisa dilihat di section Projects.",
+        "Ada empat: Campus Lost and Found Portal (Laravel + PostgreSQL), DataLearners.xxv (React), Pseudonym (PHP + PostgreSQL + Google OAuth), dan Cyber Tasker (Vanilla JavaScript). Mau detail yang mana?"
       ]
     },
     {
@@ -428,9 +445,9 @@ function getFallbackReply(input: string, history: HistoryEntry[] = []) {
     {
       keywords: ["project", "porto", "portfolio", "proyek", "kerja"],
       responses: [
-        "Alhadi adalah Web Developer dengan fokus pada clean code, desain responsif, dan pengalaman pengguna yang nyaman. Keren banget memang, hasilnya terasa profesional dan rapi.",
-        "Dari sisi portofolio, Alhadi lebih fokus pada website, aplikasi web, dan solusi digital yang user-friendly serta rapi secara teknis. Bikin orang pengen liat langsung deh.",
-        "Proyek-proyek Alhadi biasanya berorientasi pada website yang modern, responsif, dan mudah digunakan. Gak cuma bagus dilihat, tapi juga nyaman dipakai."
+        "Alhadi punya empat proyek: Campus Lost and Found Portal, DataLearners.xxv, Pseudonym, dan Cyber Tasker. Semuanya berfokus pada clean code, desain responsif, dan pengalaman pengguna yang nyaman.",
+        "Dari sisi portofolio, proyek Alhadi mencakup platform lost & found multi-kampus, portal kelas, aplikasi pesan anonim, dan manajemen tugas — semuanya web modern dan user-friendly.",
+        "Proyek-proyek Alhadi berorientasi pada website yang modern, responsif, dan mudah digunakan. Detail lengkap tiap proyek ada di section Projects."
       ]
     },
     {
@@ -586,7 +603,11 @@ Portfolio facts about Alhadi:
   - Scientific Computing with Python — freeCodeCamp, Jun 2026. Credential ID: alhadiazumi-pyv9. Skills: Python, Computer Science.
   - Learn Basic AI — Dicoding Indonesia, Feb 2026. Credential ID: JMZVOGRJ3XN9. Skills: Machine Learning, Artificial Intelligence.
 - IMPORTANT: All certification dates above are ISSUE dates, not expiry dates. These certificates never expire and are permanent. Never say "valid until", "berlaku sampai", or invent any expiry/validity date.
-- Projects: Cyber Tasker (task management app) and Pseudonym (anonymous secret messaging app with Google login, built with PHP & PostgreSQL(Supabase)).
+- Projects (4 total):
+  - Campus Lost and Found Portal — a multi-campus lost and found management platform letting any university/institution deploy its own item reporting and recovery portal. Built with PHP, Laravel, PostgreSQL, Supabase, TailwindCSS, and JavaScript (created 2026-10-30). Features: multi-campus & modular institution setup, interactive lost & found item catalog, online reporting form, item recovery status tracking (Active, Returned, Verified), and campus security officer verification workflow. Live: https://campuslostandfound.web.id — GitHub: https://github.com/AlhadiAzumi/Lost-Found
+  - DataLearners.xxv — the official class portal web for TI 2B Politeknik Negeri Lhokseumawe, with a student directory, academic assignments catalog, and class gallery. Built with React, JavaScript, TailwindCSS, HTML5, and CSS3 (created 2026-10-21). Live: https://datalearnersxxv.my.id — GitHub: https://github.com/AlhadiAzumi/Website-Kelas-TI-2B-PNL
+  - Pseudonym — an anonymous secret messaging app inspired by Secreto/NGL: anyone can send anonymous messages without an account, while account owners log in with Google to receive and reply. Built with PHP & PostgreSQL (Supabase), PDO, Google OAuth, JavaScript, and TailwindCSS (created 2026-10-01). Messages and replies are publicly visible. Live: https://pseudonym.site — GitHub: https://github.com/AlhadiAzumi/pseudonym
+  - Cyber Tasker — a task management app helping users organize work and activities, with automated deadline notification, data export (CSV/PDF), and an offline-first LocalStorage API. Built with Vanilla JavaScript, HTML5, and CSS3 (created 2026-06-28). Live: https://cybertasker.netlify.app/
 - Personal tidbits: Favorite food is mi ayam. Classmate & close friends: Rahmat, Karim, Reza, and Fadhlul.
 - Contacts: Professional email is alhadiazumifw@gmail.com, Instagram is @alhdzm. WhatsApp (085167811568) only provided when explicitly asked.
 - Privacy: Never guess or reveal sensitive personal details.`,
